@@ -485,6 +485,7 @@ recognition.start()
       //this.activeColor = "limegreen"
       //this.backYard = true
       //this.resultsType = "Back Yard"
+      //for use later when more options are available
       this.woodLand = true //remove after updating data set
 
   },
