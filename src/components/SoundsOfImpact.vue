@@ -3,9 +3,10 @@
   <h1 id="messageThree" v-bind:style="{ color: activeColor}">{{ msg3 }}</h1> 
   <h2 id="time" class="messageOne">{{ msg }}</h2>
     <h3 id="messageTwo">{{ msg2 }}</h3> 
+    <h2 class="blink_me" id="processing">{{ processing }}</h2> 
     <p id="overview" v-if="!isHidden">There are around 3 billion fewer birds alive in North America today than there were in 1970. 3 billion is one of those numbers that is so big, it is difficult to understand.<br><br>Interested to learn what 3 billion less birds in the environment sounds like, we built Byrd Bot, an online tool that generates artificial bird soundscapes that simulate what the woods would sound like at 3 different points in time: 1970, 2017, and 2065.<br><br>Users can compare the soundscapes to experience decades of past or projected future environmental change, expressed in the form of bird songs.<br><br>Click “Generate Soundscape” and the system will create a unique soundscape that spans across time periods.</p> 
-    <button id="generateButton" v-if="!isHidden" v-on:click="aboutHidden=true; voiceHidden=true; isHidden=true; isHidden3=true;">Generate Soundscape</button>
-      <p><button class="landscape" id="woodlands" v-if="isHidden3" v-on:click="isWoodLand(); generateSoundscape(); isHidden3=false; isHidden4=false; isHidden2=true; other()">Listen to Soundscape</button><p>
+    <button id="generateButton" v-if="!isHidden" v-on:click="aboutHidden=true; voiceHidden=true; isHidden=true; isHidden3=true; isWoodLand(); generateSoundscape();">Generate Soundscape</button>
+      <!--<p><button class="landscape" id="woodlands" v-if="isHidden3" v-on:click="isWoodLand(); generateSoundscape(); isHidden3=false; isHidden4=false; isHidden2=true; other()">Listen to Soundscape</button><p>-->
     <span>
     <p>
      <p id="surveyQuestion" v-if="!isHidden"><br><br><br><br>Are you interested to help us learn more about environmental communication by filling out a brief survey before and after interacting with Byrd Bot?
@@ -68,6 +69,7 @@ export default {
       msg2: '',
       msg3: '', 
       msg4: '',
+      processing: '', 
       meters1: '', 
       meters2: '', 
       meters3: '', 
@@ -362,7 +364,18 @@ export default {
       sixtyFiveStop: false,
       resultsType: '', 
       survey: false, 
-      surveyShow: false
+      surveyShow: false, 
+      
+      bs1: true,
+      bs2: true,
+      bs3: true,
+      bs4: true,
+      bs5: true,
+      bs6: true,
+      bs7: true,
+      bs8: true,
+      bs9: true,
+      bs10: true 
     }
   },
 mounted: function () {
@@ -541,10 +554,12 @@ recognition.start()
 		randomEntries.push(soundScapeVariables);
 
 		}
+		
+		self.msg4 = randomEntries
+		
 		console.log("Random entries retrieved:" + randomEntries)
-
-          self.msg2 = "Soundscape Variables Generated"
-          self.msg4 = "Select a Time Period to Listen"
+			self.processing = "Generating Soundscape"
+          
           
           //die roll
           var probability = Math.random()* 100
@@ -599,11 +614,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability1) {
               self.birdSound1 = new Pizzicato.Sound(self.birdNumber1, function() {
               self.nineteenSeventyVolume1 = birdProbability1
-              self.birdSound1.volume = .7
+              self.birdSound1.volume = .4
               self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
               self.birdSound1.addEffect(self.birdSound1Pan)
               self.birdSound1.addEffect(reverb1)
               });
+              self.bs1 = true
               self.flipCard1 = true
             }
             if (probability >= birdProbability1) {
@@ -614,6 +630,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound1.addEffect(self.birdSound1Pan)
               self.birdSound1.addEffect(reverb1)
               });
+              self.bs1 = false
               self.flipCard1 = false
             }
             
@@ -621,7 +638,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityA) {
               self.birdAudio1 = new Pizzicato.Sound(self.birdNumber1, function() {
               self.twentyTwentyVolume1 = birdProbabilityA
-              self.birdAudio1.volume = .7
+              self.birdAudio1.volume = .4
               self.birdAudio1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
               self.birdAudio1.addEffect(self.birdAudio1Pan)
               self.birdAudio1.addEffect(reverb1)
@@ -642,7 +659,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityOne) {
               self.birdSong1 = new Pizzicato.Sound(self.birdNumber1, function() {
               self.twentySixtyFiveVolume1 = birdProbabilityOne
-              self.birdSong1.volume = .7
+              self.birdSong1.volume = .4
               self.birdSong1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
               self.birdSong1.addEffect(self.birdSong1Pan)
               self.birdSong1.addEffect(reverb1)
@@ -671,11 +688,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability2) {
               self.birdSound2 = new Pizzicato.Sound(self.birdNumber2, function() {
               self.nineteenSeventyVolume2 = birdProbability2
-              self.birdSound2.volume = .7
+              self.birdSound2.volume = .4
               self.birdSound2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
               self.birdSound2.addEffect(self.birdSound2Pan)
               self.birdSound2.addEffect(reverb1)
               });
+              self.bs2 = true
               self.flipCard2 = true
             }
             if (probability >= birdProbability2) {
@@ -685,6 +703,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound2.addEffect(self.birdSound2Pan)
               self.birdSound2.addEffect(reverb1)
               });
+              self.bs2 = false
               self.flipCard2 = false
             }
             
@@ -692,7 +711,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityB) {
               self.birdAudio2 = new Pizzicato.Sound(self.birdNumber2, function() {
               self.twentyTwentyVolume2 = birdProbabilityB
-              self.birdAudio2.volume = .7
+              self.birdAudio2.volume = .4
               self.birdAudio2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
               self.birdAudio2.addEffect(self.birdAudio2Pan)
               self.birdAudio2.addEffect(reverb1)
@@ -713,7 +732,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityTwo) {
               self.birdSong2 = new Pizzicato.Sound(self.birdNumber2, function() {
               self.twentySixtyFiveVolume2 = birdProbabilityTwo
-              self.birdSong2.volume = .7
+              self.birdSong2.volume = .4
               self.birdSong2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
               self.birdSong2.addEffect(self.birdSong2Pan)
               self.birdSong2.addEffect(reverb1)
@@ -742,11 +761,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability3) {
               self.birdSound3 = new Pizzicato.Sound(self.birdNumber3, function() {
               self.nineteenSeventyVolume3 = birdProbability3
-              self.birdSound3.volume = .4
+              self.birdSound3.volume = .3
               self.birdSound3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
               self.birdSound3.addEffect(self.birdSound3Pan)
               self.birdSound3.addEffect(reverb2)
               });
+              self.bs3 = true
               self.flipCard3 = true
             }
             if (probability >= birdProbability3) {
@@ -756,6 +776,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound3.addEffect(self.birdSound3Pan)
               self.birdSound3.addEffect(reverb2)
               });
+              self.bs3 = false
               self.flipCard3 = false
             }
             
@@ -763,7 +784,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityC) {
               self.birdAudio3 = new Pizzicato.Sound(self.birdNumber3, function() {
               self.twentyTwentyVolume3 = birdProbabilityC
-              self.birdAudio3.volume = .4
+              self.birdAudio3.volume = .3
               self.birdAudio3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
               self.birdAudio3.addEffect(self.birdAudio3Pan)
               self.birdAudio3.addEffect(reverb2)
@@ -784,7 +805,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityThree) {
               self.birdSong3 = new Pizzicato.Sound(self.birdNumber3, function() {
               self.twentySixtyFiveVolume3 = birdProbabilityThree
-              self.birdSong3.volume = .4
+              self.birdSong3.volume = .3
               self.birdSong3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
               self.birdSong3.addEffect(self.birdSong3Pan)
               self.birdSong3.addEffect(reverb2)
@@ -813,11 +834,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability4) {
               self.birdSound4 = new Pizzicato.Sound(self.birdNumber4, function() {
               self.nineteenSeventyVolume4 = birdProbability4
-              self.birdSound4.volume = .4
+              self.birdSound4.volume = .3
               self.birdSound4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
               self.birdSound4.addEffect(self.birdSound4Pan)
               self.birdSound4.addEffect(reverb2)
               });
+              self.bs4 = true
               self.flipCard4 = true
             }
             if (probability >= birdProbability4) {
@@ -827,6 +849,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound4.addEffect(self.birdSound4Pan)
               self.birdSound4.addEffect(reverb2)
               });
+              self.bs4 = false
               self.flipCard4 = false
             }
             
@@ -834,7 +857,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityD) {
               self.birdAudio4 = new Pizzicato.Sound(self.birdNumber4, function() {
               self.twentyTwentyVolume4 = birdProbabilityD
-              self.birdAudio4.volume = .4
+              self.birdAudio4.volume = .3
               self.birdAudio4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
               self.birdAudio4.addEffect(self.birdAudio4Pan)
               self.birdAudio4.addEffect(reverb2)
@@ -855,7 +878,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityFour) {
               self.birdSong4 = new Pizzicato.Sound(self.birdNumber4, function() {
               self.twentySixtyFiveVolume4 = birdProbabilityFour
-              self.birdSong4.volume = .4
+              self.birdSong4.volume = .3
               self.birdSong4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
               self.birdSong4.addEffect(self.birdSong4Pan)
               self.birdSong4.addEffect(reverb2)
@@ -884,11 +907,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability5) {
               self.birdSound5 = new Pizzicato.Sound(self.birdNumber5, function() {
               self.nineteenSeventyVolume5 = birdProbability5
-              self.birdSound5.volume = .4 
+              self.birdSound5.volume = .3
               self.birdSound5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
               self.birdSound5.addEffect(self.birdSound5Pan)
               self.birdSound5.addEffect(reverb2)
               });
+              self.bs5 = true
               self.flipCard5 = true
             }
             if (probability >= birdProbability5) {
@@ -898,6 +922,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound5.addEffect(self.birdSound5Pan)
               self.birdSound5.addEffect(reverb2)
               });
+              self.bs5 = false
               self.flipCard5 = false
             }
             
@@ -905,7 +930,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityE) {
               self.birdAudio5 = new Pizzicato.Sound(self.birdNumber5, function() {
               self.twentyTwentyVolume5 = birdProbabilityE
-              self.birdAudio5.volume = .4
+              self.birdAudio5.volume = .3
               self.birdAudio5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
               self.birdAudio5.addEffect(self.birdAudio5Pan)
               self.birdAudio5.addEffect(reverb2)
@@ -926,7 +951,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityFive) {
               self.birdSong5 = new Pizzicato.Sound(self.birdNumber5, function() {
               self.twentySixtyFiveVolume5 = birdProbabilityFive
-              self.birdSong5.volume = .4
+              self.birdSong5.volume = .3
               self.birdSong5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
               self.birdSong5.addEffect(self.birdSong5Pan)
               self.birdSong5.addEffect(reverb2)
@@ -955,11 +980,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability6) {
               self.birdSound6 = new Pizzicato.Sound(self.birdNumber6, function() {
               self.nineteenSeventyVolume6 = birdProbability6
-              self.birdSound6.volume = .25 
+              self.birdSound6.volume = .2 
               self.birdSound6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
               self.birdSound6.addEffect(self.birdSound6Pan)
               self.birdSound6.addEffect(reverb3)
               });
+              self.bs6 = true
               self.flipCard6 = true
             }
             if (probability >= birdProbability6) {
@@ -969,6 +995,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound6.addEffect(self.birdSound6Pan)
               self.birdSound6.addEffect(reverb3)
               });
+              self.bs6 = false
               self.flipCard6 = false
             }
             
@@ -976,7 +1003,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityF) {
               self.birdAudio6 = new Pizzicato.Sound(self.birdNumber6, function() {
               self.twentyTwentyVolume6 = birdProbabilityF
-              self.birdAudio6.volume = .25
+              self.birdAudio6.volume = .2
               self.birdAudio6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
               self.birdAudio6.addEffect(self.birdAudio6Pan)
               self.birdAudio6.addEffect(reverb3)
@@ -997,7 +1024,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilitySix) {
               self.birdSong6 = new Pizzicato.Sound(self.birdNumber6, function() {
               self.twentySixtyFiveVolume6 = birdProbabilitySix
-              self.birdSong6.volume = .25
+              self.birdSong6.volume = .2
               self.birdSong6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
               self.birdSong6.addEffect(self.birdSong6Pan)
               self.birdSong6.addEffect(reverb3)
@@ -1026,11 +1053,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability7) {
               self.birdSound7 = new Pizzicato.Sound(self.birdNumber7, function() {
               self.nineteenSeventyVolume7 = birdProbability7
-              self.birdSound7.volume = .20
+              self.birdSound7.volume = .15
               self.birdSound7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
               self.birdSound7.addEffect(self.birdSound7Pan)
               self.birdSound7.addEffect(reverb4)
               });
+              self.bs7 = true
               self.flipCard7 = true
             }
             if (probability >= birdProbability7) {
@@ -1040,6 +1068,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound7.addEffect(self.birdSound7Pan)
               self.birdSound7.addEffect(reverb4)
               });
+              self.bs7 = false
               self.flipCard7 = false
             }
             
@@ -1047,7 +1076,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityG) {
               self.birdAudio7 = new Pizzicato.Sound(self.birdNumber6, function() {
               self.twentyTwentyVolume7 = birdProbabilityG
-              self.birdAudio7.volume = .20
+              self.birdAudio7.volume = .15
               self.birdAudio7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
               self.birdAudio7.addEffect(self.birdAudio7Pan)
               self.birdAudio7.addEffect(reverb4)
@@ -1068,7 +1097,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilitySeven) {
               self.birdSong7 = new Pizzicato.Sound(self.birdNumber7, function() {
               self.twentySixtyFiveVolume7 = birdProbabilitySeven
-              self.birdSong7.volume = .20
+              self.birdSong7.volume = .15
               self.birdSong7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
               self.birdSong7.addEffect(self.birdSong7Pan)
               self.birdSong7.addEffect(reverb4)
@@ -1097,11 +1126,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability8) {
               self.birdSound8 = new Pizzicato.Sound(self.birdNumber8, function() {
               self.nineteenSeventyVolume8 = birdProbability8
-              self.birdSound8.volume = .12
+              self.birdSound8.volume = .10
               self.birdSound8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
               self.birdSound8.addEffect(self.birdSound8Pan)
               self.birdSound8.addEffect(reverb5)
               });
+              self.bs8 = true
               self.flipCard8 = true
             }
             if (probability >= birdProbability8) {
@@ -1111,6 +1141,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound8.addEffect(self.birdSound8Pan)
               self.birdSound8.addEffect(reverb5)
               });
+              self.bs8 = false
               self.flipCard5 = false
             }
             
@@ -1118,7 +1149,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityH) {
               self.birdAudio8 = new Pizzicato.Sound(self.birdNumber7, function() {
               self.twentyTwentyVolume8 = birdProbabilityH
-              self.birdAudio8.volume = .12
+              self.birdAudio8.volume = .10
               self.birdAudio8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
               self.birdAudio8.addEffect(self.birdAudio8Pan)
               self.birdAudio8.addEffect(reverb5)
@@ -1138,7 +1169,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityEight) {
               self.birdSong8 = new Pizzicato.Sound(self.birdNumber8, function() {
               self.twentySixtyFiveVolume8 = birdProbabilityEight
-              self.birdSong8.volume = .12
+              self.birdSong8.volume = .10
               self.birdSong8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
               self.birdSong8.addEffect(self.birdSong8Pan)
               self.birdSong8.addEffect(reverb5)
@@ -1167,11 +1198,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability9) {
               self.birdSound9 = new Pizzicato.Sound(self.birdNumber9, function() {
               self.nineteenSeventyVolume9 = birdProbability9
-              self.birdSound9.volume = .07
+              self.birdSound9.volume = .05
               self.birdSound9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
               self.birdSound9.addEffect(self.birdSound9Pan)
               self.birdSound9.addEffect(reverb5)
               });
+              self.bs9 = true
               self.flipCard9 = true
             }
             if (probability >= birdProbability9) {
@@ -1181,6 +1213,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound9.addEffect(self.birdSound9Pan)
               self.birdSound9.addEffect(reverb5)
               });
+              self.bs9 = false
               self.flipCard9 = false
             }
             
@@ -1188,7 +1221,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityI) {
               self.birdAudio9 = new Pizzicato.Sound(self.birdNumber8, function() {
               self.twentyTwentyVolume9 = birdProbabilityI
-              self.birdAudio9.volume = .07
+              self.birdAudio9.volume = .05
               self.birdAudio9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
               self.birdAudio9.addEffect(self.birdAudio9Pan)
               self.birdAudio9.addEffect(reverb5)
@@ -1209,7 +1242,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityNine) {
               self.birdSong9 = new Pizzicato.Sound(self.birdNumber9, function() {
               self.twentySixtyFiveVolume9 = birdProbabilityNine
-              self.birdSong9.volume = .07
+              self.birdSong9.volume = .05
               self.birdSong9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
               self.birdSong9.addEffect(self.birdSong9Pan)
               self.birdSong9.addEffect(reverb5)
@@ -1238,11 +1271,12 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbability10) {
               self.birdSound10 = new Pizzicato.Sound(self.birdNumber10, function() {
               self.nineteenSeventyVolume10 = birdProbability10
-              self.birdSound10.volume = .03
+              self.birdSound10.volume = .02
               self.birdSound10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
               self.birdSound10.addEffect(self.birdSound10Pan)
               self.birdSound10.addEffect(reverb5)
               });
+              self.bs10 = true
               self.flipCard10 = true
             }
             if (probability >= birdProbability10) {
@@ -1252,6 +1286,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               self.birdSound10.addEffect(self.birdSound10Pan)
               self.birdSound10.addEffect(reverb5)
               });
+              self.bs10 = false
               self.flipCard10 = false
             }
             
@@ -1259,7 +1294,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityJ) {
               self.birdAudio10 = new Pizzicato.Sound(self.birdNumber10, function() {
               self.twentyTwentyVolume10 = birdProbabilityJ
-              self.birdAudio10.volume = .03
+              self.birdAudio10.volume = .02
               self.birdAudio10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
               self.birdAudio10.addEffect(self.birdAudio10Pan)
               self.birdAudio10.addEffect(reverb5)
@@ -1280,7 +1315,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
             if (probability <= birdProbabilityTen) {
               self.birdSong10 = new Pizzicato.Sound(self.birdNumber10, function() {
               self.twentySixtyFiveVolume10 = birdProbabilityTen
-              self.birdSong10.volume = .03
+              self.birdSong10.volume = .02
               self.birdSong10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
               self.birdSong10.addEffect(self.birdSong10Pan)
               self.birdSong10.addEffect(reverb5)
@@ -1296,12 +1331,28 @@ var reverb5 = new Pizzicato.Effects.Reverb({
               });
               self.flipCardTen = false
             }
-  
+			if (self.bs1 == false || self.bs2 == false || self.bs3 == false || self.bs4 == false || self.bs5 == false || self.bs6 == false || self.bs7 == false || self.bs8 == false || self.bs9 == false || self.bs10 == false) {
+				self.sleep(200).then(() => {
+				console.log("insufficient birds")
+				setInterval(self.generateSoundscape(), 500)
+				return	
+				})
+					
+			}
+			else {
+				console.log("sufficient birds generated")
+				self.msg2 = "Soundscape Generated"
+				self.msg4 = "Select a Time Period to Listen"
+				self.processing = ""
+				self.isHidden2 = true
+			}
           self.group = new Pizzicato.Group([]);
        })
        .catch(function (error) {
        console.log(error);
+       self.processing = error + " Please refresh the page and try again"
        })
+       
     }, 
     sleep: function (milliseconds){
       return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -1312,7 +1363,6 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         loopTwo: function () {
       this.twentyTwenty()
     },
-    
         loopThree: function () {
       this.fiftyFifty()
     },
@@ -1498,7 +1548,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         canvas.height = 0
         //this.group.addSound(this.birdAudio1)
         //this.group.addSound(this.birdAudio2)
-        this.group.addSound(this.birdAudio3)
+        //this.group.addSound(this.birdAudio3)
         this.group.addSound(this.birdAudio4)
         this.group.addSound(this.birdAudio5)
         this.group.addSound(this.birdAudio6)
@@ -1540,7 +1590,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           //this.card2 = true; 
         }
         if (this.flipCardC == true) {
-          this.card3 = true; 
+          //this.card3 = true; 
         }
         if (this.flipCardD == true) {
           this.card4 = true; 
@@ -1623,7 +1673,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         //this.group.addSound(this.birdSong2)
         //this.group.addSound(this.birdSong3)
         //this.group.addSound(this.birdSong4)
-        this.group.addSound(this.birdSong5)
+        //this.group.addSound(this.birdSong5)
         this.group.addSound(this.birdSong6)
         this.group.addSound(this.birdSong7)
         this.group.addSound(this.birdSong8)
@@ -1668,7 +1718,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           //this.card4 = true; 
         }
         if (this.flipCardFive == true) {
-          this.card5 = true; 
+          //this.card5 = true; 
         }
          if (this.flipCardSix == true) {
           this.card6 = true; 
@@ -1842,6 +1892,15 @@ var reverb5 = new Pizzicato.Effects.Reverb({
 
 <!-- Add "scoped" attribute to limit CSS to self component only -->
 <style scoped>
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 #surveyQuestion {
 width: 40%; 
 float: right;
@@ -1858,9 +1917,13 @@ margin-left: 25px;
 }
 #messageTwo {
 font-size: 50px;
+color: green; 
 }
 #messageThree {
 font-size: 30px;
+}
+#processing {
+color: red; 
 }
 #birds1 {
 }
