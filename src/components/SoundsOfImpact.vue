@@ -9,17 +9,22 @@
       <!--<p><button class="landscape" id="woodlands" v-if="isHidden3" v-on:click="isWoodLand(); generateSoundscape(); isHidden3=false; isHidden4=false; isHidden2=true; other()">Listen to Soundscape</button><p>-->
     <span>
     <p>
-     <p id="surveyQuestion" v-if="!isHidden"><br><br><br><br>Are you interested to help us learn more about environmental communication by filling out a brief survey before and after interacting with Byrd Bot?
-     <!-- <button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About</button>-->
-     <!-- <button id="voiceButton" v-if="!voiceHidden" v-on:click="initiateVoiceControl()">Enable Voice Control</button>-->
-     <br><button id="aboutButton" v-on:click="aboutHidden=true; voiceHidden=true; isHidden=true; isHidden3=true; isHidden4=true; biome()">Yes</button>
+     <!--<p id="surveyQuestion" v-if="!isHidden"><br><br><br><br>Are you interested to help us learn more about environmental communication by filling out a brief survey before and after interacting with Byrd Bot?
+     <button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About</button>-->
+     <!-- <button id="voiceButton" v-if="!voiceHidden" v-on:click="initiateVoiceControl()">Enable Voice Control</button>
+     <br><button id="aboutButton" v-on:click="aboutHidden=true; voiceHidden=true; isHidden=true; isHidden2=true; isHidden3=true; isHidden4=true; biome(); isWoodLand(); generateSoundscape()">Yes</button>-->
     </p>
     <iframe id="survey" v-if="isHidden4" src="https://rowan.co1.qualtrics.com/jfe/form/SV_5ulN08dAFJakrwW" width="640" height="2336" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     </span> 
    <!-- <button class="landscape" id="coast" v-if="isHidden3" v-on:click="isCoast(); generateSoundscape(); isHidden3=false; isHidden2=true">Coast</button>  
     <button class="landscape" id="backyard" v-if="isHidden3" v-on:click="isBackYard(); generateSoundscape(); isHidden3=false; isHidden2=true">Backyard</button>-->  
     <!--code for tracking frequency with box size fontSize: birdSoundVolume10/2 +'px' -->
-
+	<button id="nineteenSeventyButton" v-if="isHidden2" v-on:click="nineteenSeventy">Play 1970</button>
+    <button id="twentyTwentyButton" v-if="isHidden2" v-on:click="twentyTwenty">Play 2017</button>
+    <button id="twentyTwentyFiftyFive" v-if="isHidden2" v-on:click="fiftyFifty">Play 2065</button>
+    <p><button id="resetButton" v-if="resetHidden" v-on:click="aboutHidden=false; isHidden=false; isHidden2=false; surveyShow=false; reset(); voiceHidden=false">Reset</button></p>
+    <h3>{{ msg4 }}</h3> 
+    <canvas id="canvas"></canvas>
     <ul class="birdBox" id="birds3" >
       <li class="card" v-bind:style="{color: birdColor6, fontSize: 50 +'px'}" v-show="card6"><!-- <img class="card" :alt="birdName6" :src="birdImage6"> -->{{birdName6}}</li>
       <li class="card" v-bind:style="{color: birdColor7, fontSize: 50 +'px'}" v-show="card7"><!-- <img class="card" :alt="birdName7" :src="birdImage7"> -->{{birdName7}}</li>
@@ -42,13 +47,7 @@
       <li class="card" v-bind:style="{color: birdColor1, fontSize: 50 +'px'}" v-show="card1"><!-- <img class="card" :alt="birdName1" :src="birdImage1"> -->{{birdName1}}</li>
       <li class="card" v-bind:style="{color: birdColor2, fontSize: 50 +'px'}" v-show="card2"><!-- <img class="card" :alt="birdName2" :src="birdImage2"> -->{{birdName2}}</li>
 	</ul> <h4> {{ meters1 }} </h4>
-    <h3>{{ msg4 }}</h3> 
     <Modal v-show="isModalVisible" @voice="this.reInitiateVoiceControl" @close="isModalVisible = false"/> 
-    <button id="nineteenSeventyButton" v-if="isHidden2" v-on:click="nineteenSeventy">Play 1970</button>
-    <button id="twentyTwentyButton" v-if="isHidden2" v-on:click="twentyTwenty">Play 2017</button>
-    <button id="twentyTwentyFiftyFive" v-if="isHidden2" v-on:click="fiftyFifty">Play 2065</button>
-    <p><button id="resetButton" v-if="isHidden2" v-on:click="aboutHidden=false; isHidden=false; isHidden2=false; surveyShow=false; reset(); voiceHidden=false">Reset</button></p>
-    <canvas id="canvas"></canvas>
     <iframe id="survey" v-if="surveyShow" src="https://rowan.co1.qualtrics.com/jfe/form/SV_0P7c1zqwJGzN3q6" width="640" height="2511" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
   </div>
 </template>
@@ -348,6 +347,8 @@ export default {
       isHidden2: false, 
       isHidden3: false, 
       isHidden4: false, 
+      resetHidden: false, 
+      resetNotNeeded: false, 
       aboutHidden: false, 
       voiceHidden: false, 
       isModalVisible: false,
@@ -411,6 +412,7 @@ mounted: function () {
             this.generateSoundscape()
             this.isHidden2 = true
             this.aboutHidden = true
+            this.resetHidden = true
             this.doItAgain = true
             this.reInitiateVoiceControl()
           }
@@ -1345,12 +1347,17 @@ var reverb5 = new Pizzicato.Effects.Reverb({
 				self.msg4 = "Select a Time Period to Listen"
 				self.processing = ""
 				self.isHidden2 = true
+				self.resetHidden = true
+				
+				
 			}
           self.group = new Pizzicato.Group([]);
        })
        .catch(function (error) {
        console.log(error);
-       self.processing = error + " Please refresh the page and try again"
+       self.processing = error + " Please click the reset button and try again"
+       if (error) {self.resetHidden = true
+       }
        })
        
     }, 
@@ -1750,6 +1757,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
     },
     reset: function () {
         this.group.stop()
+        this.resetHidden = false
         this.woodLand = false; 
         this.coast = false; 
         this.backYard = false; 
@@ -1760,6 +1768,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         this.meters1 = ''
         this.meters2 = ''
         this.meters3 = ''
+        this.processing = ''
         
         this.card1 = false; 
         this.card2 = false; 
@@ -1991,7 +2000,7 @@ font-size: 12;
 padding: 7px 16px;
 }
 #resetButton {
-background-color: black;  
+background-color: lightgrey;  
 font-size: 16px;
 padding: 8px 8px;
 }
