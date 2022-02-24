@@ -49,6 +49,9 @@
 	</ul> <h4> {{ meters1 }} </h4>
     <Modal v-show="isModalVisible" @voice="this.reInitiateVoiceControl" @close="isModalVisible = false"/> 
     <iframe id="survey" v-if="surveyShow" src="https://rowan.co1.qualtrics.com/jfe/form/SV_0P7c1zqwJGzN3q6" width="640" height="2511" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    <div id="footer">
+		<p>Byrd Bot was developed by researchers at <a href="https://www.rowan.edu">Rowan University</a>. Bird songs generously provided by the Cornell Lab of Ornithology's <a href="https://www.macaulaylibrary.org">Macaulay Library</a>.  </p>
+	</div>
   </div>
 </template>
 
