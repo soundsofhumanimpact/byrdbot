@@ -512,8 +512,6 @@ recognition.start()
      let churn = true; 
      var returnedResults = []
      Pizzicato.context.resume();
-     var randomTestBird = new Pizzicato.Sound("https://github.com/soundsofhumanimpact/byrdbot/blob/master/src/assets/48329121.mp3?raw=true")
-     randomTestBird.play()
      console.log ("birdsoundTest")
         axios.get("https://raw.githubusercontent.com/soundsofhumanimpact/data/master/bird_data_simple_future.json")
        .then(function (response) { 
