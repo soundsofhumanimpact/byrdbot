@@ -24,6 +24,9 @@
     <button id="twentyTwentyFiftyFive" v-if="isHidden2" v-on:click="fiftyFifty">Play 2065</button>
     <p><button id="resetButton" v-if="resetHidden" v-on:click="aboutHidden=false; isHidden=false; isHidden2=false; surveyShow=false; reset(); voiceHidden=false">Reset</button></p>
     <h3>{{ msg4 }}</h3> 
+    <audio controls>
+		<source src="@/assets/48329121.mp3">
+	</audio>
     <canvas id="canvas"></canvas>
     <ul class="birdBox" id="birds3" >
       <li class="card" v-bind:style="{color: birdColor6, fontSize: 50 +'px'}" v-show="card6"><!-- <img class="card" :alt="birdName6" :src="birdImage6"> -->{{birdName6}}</li>
