@@ -50,7 +50,7 @@
     <Modal v-show="isModalVisible" @voice="this.reInitiateVoiceControl" @close="isModalVisible = false"/> 
     <iframe id="survey" v-if="surveyShow" src="https://rowan.co1.qualtrics.com/jfe/form/SV_0P7c1zqwJGzN3q6" width="640" height="2511" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     <div id="footer">
-		<p>Byrd Bot was developed by researchers at <a href="https://www.rowan.edu">Rowan University</a>. Bird songs generously provided by the Cornell Lab of Ornithology's <a href="https://www.macaulaylibrary.org">Macaulay Library</a>.  Individual credits for bird song recordings can be found <a href="https://soundsofhumanimpact.github.io/data">here</a>.</p>
+		<p>Byrd Bot was developed by researchers at <a href="https://www.rowan.edu">Rowan University</a>. Bird songs generously provided by the <a href="https://www.macaulaylibrary.org">Cornell Lab of Ornithology/Macaulay Library</a>.  Individual credits for bird song recordings can be found <a href="https://soundsofhumanimpact.github.io/data">here</a>.</p>
 	</div>
   </div>
 </template>
