@@ -57,8 +57,8 @@
 
 <script>
 import axios from 'axios'
-import Pizzicato from 'pizzicato'
-import Oscilloscope from 'oscilloscope'
+//import Pizzicato from 'pizzicato'
+// Oscilloscope from 'oscilloscope'
 import Modal from './Modal.vue'
 export default {
   name: 'SoundsOfImpact',
@@ -509,39 +509,22 @@ recognition.start()
   },
      generateSoundscape: function () {
      var self = this; 
-     let churn = true; 
      var returnedResults = []
-     Pizzicato.context.resume();
+     
+     //make a call to get the data
      console.log ("birdsoundTest")
-        axios.get("https://raw.githubusercontent.com/soundsofhumanimpact/data/master/bird_data_simple_future.json")
+        axios.get("https://raw.githubusercontent.com/soundsofhumanimpact/data/master/bird_data_simple_future2.json")
        .then(function (response) { 
-		
-		if (churn == true){
-		returnedResults = response.data.filter(function(item){
-		return item.sound1 !== "" && item.sound2 !== "" && item.sound3 !== "" && item.sound4 !== "" && item.sound5 !== ""
-		})
-		}
       
-      if (self.woodLand == true) { 
+      returnedResults = response.data
+		//filter data to return only "woodland" entries
         self.filteredResults = returnedResults.filter(function(item){
         return item.scape === "woodland"
-        })
-      }
-      
-      if (self.coast ==true) { 
-        self.filteredResults = response.data.filter(function(item){
-        return item.scape == "coast";         
-        })
-      }
-      
-      if (self.backYard ==true) { 
-        self.filteredResults = response.data.filter(function(item){
-        return item.scape == "backyard";         
-        })
-      }
+       })
       
      var numberOfFilteredObjects = Object.keys(self.filteredResults).length
      console.log("Total number of " + self.resultsType + " birds is: " + numberOfFilteredObjects)
+     console.log (self.filteredResults)
      
 		
 		var randomEntries = [];
@@ -573,37 +556,6 @@ recognition.start()
           
           
           var soundConstructor = "sound" + Math.floor(Math.random()*4+1) 
-          
-var reverb1 = new Pizzicato.Effects.Reverb({
-	time: 0.01,
-	decay: 0.01,
-	reverse: false,
-	mix: 0.7
-	});
-var reverb2 = new Pizzicato.Effects.Reverb({
-	time: 0.01,
-	decay: 0.01,
-	reverse: false,
-	mix: 0.8
-	});
-var reverb3 = new Pizzicato.Effects.Reverb({
-	time: 0.01,
-	decay: 0.01,
-	reverse: false,
-	mix: 0.9
-	});
-var reverb4 = new Pizzicato.Effects.Reverb({
-	time: 0.01,
-	decay: 0.01,
-	reverse: false,
-	mix: 1
-	});
-var reverb5 = new Pizzicato.Effects.Reverb({
-	time: 0.01,
-	decay: 0.01,
-	reverse: false,
-	mix: 1
-	});
 
 //BIRD 1 - 10-40 Meters - 100% Volume          
           self.birdName1 = randomEntries[0].species
@@ -614,71 +566,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           console.log("17:" + birdProbabilityA)
           var birdProbabilityOne = randomEntries[0].frequency_2065 * 10000
           console.log("65:" + birdProbabilityOne)
-          var panValue1 = Math.random()*2 - 1
           
             //1970
             if (probability <= birdProbability1) {
-              self.birdSound1 = new Pizzicato.Sound(self.birdNumber1, function() {
-              self.nineteenSeventyVolume1 = birdProbability1
-              self.birdSound1.volume = .4
-              self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
-              self.birdSound1.addEffect(self.birdSound1Pan)
-              self.birdSound1.addEffect(reverb1)
-              });
               self.bs1 = true
               self.flipCard1 = true
             }
             if (probability >= birdProbability1) {
-              self.birdSound1 = new Pizzicato.Sound(self.birdNumber1, function() {
-              self.birdSound1.volume = 0
-              self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
-              self.birdSound1.volume = self.birdSoundVolume1
-              self.birdSound1.addEffect(self.birdSound1Pan)
-              self.birdSound1.addEffect(reverb1)
-              });
               self.bs1 = false
               self.flipCard1 = false
             }
             
             //2017
             if (probability <= birdProbabilityA) {
-              self.birdAudio1 = new Pizzicato.Sound(self.birdNumber1, function() {
-              self.twentyTwentyVolume1 = birdProbabilityA
-              self.birdAudio1.volume = .4
-              self.birdAudio1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
-              self.birdAudio1.addEffect(self.birdAudio1Pan)
-              self.birdAudio1.addEffect(reverb1)
-              });
               self.flipCardA = true
             }
             if (probability >= birdProbabilityA) {
-              self.birdAudio1 = new Pizzicato.Sound(self.birdNumber1,  function() {
-              self.birdAudio1.volume = 0
-              self.birdAudio1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
-              self.birdAudio1.addEffect(self.birdAudio1Pan)
-              self.birdAudio1.addEffect(reverb1)
-              });
               self.flipCardA = false
             }
             
             //2065
             if (probability <= birdProbabilityOne) {
-              self.birdSong1 = new Pizzicato.Sound(self.birdNumber1, function() {
-              self.twentySixtyFiveVolume1 = birdProbabilityOne
-              self.birdSong1.volume = .4
-              self.birdSong1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
-              self.birdSong1.addEffect(self.birdSong1Pan)
-              self.birdSong1.addEffect(reverb1)
-              });
               self.flipCardOne = true
             }
             if (probability >= birdProbabilityOne) {
-              self.birdSong1 = new Pizzicato.Sound(self.birdNumber1, function() {
-              self.birdSong1.volume = 0
-              self.birdSong1Pan = new Pizzicato.Effects.StereoPanner({pan: panValue1});
-              self.birdSong1.addEffect(self.birdSong1Pan)
-              self.birdSong1.addEffect(reverb1)
-              });
               self.flipCardOne = false
             }
             
@@ -688,70 +599,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability2 = randomEntries[1].frequency_1970 * 10000
           var birdProbabilityB = randomEntries[1].frequency_2017 * 10000
           var birdProbabilityTwo = randomEntries[1].frequency_2065 * 10000
-          var panValue2 = Math.random()*2 - 1
           
           //1970
             if (probability <= birdProbability2) {
-              self.birdSound2 = new Pizzicato.Sound(self.birdNumber2, function() {
-              self.nineteenSeventyVolume2 = birdProbability2
-              self.birdSound2.volume = .4
-              self.birdSound2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
-              self.birdSound2.addEffect(self.birdSound2Pan)
-              self.birdSound2.addEffect(reverb1)
-              });
               self.bs2 = true
               self.flipCard2 = true
             }
             if (probability >= birdProbability2) {
-              self.birdSound2 = new Pizzicato.Sound(self.birdNumber2, function() {
-              self.birdSound2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
-              self.birdSound2.volume = 0
-              self.birdSound2.addEffect(self.birdSound2Pan)
-              self.birdSound2.addEffect(reverb1)
-              });
               self.bs2 = false
               self.flipCard2 = false
             }
             
             //2017
             if (probability <= birdProbabilityB) {
-              self.birdAudio2 = new Pizzicato.Sound(self.birdNumber2, function() {
-              self.twentyTwentyVolume2 = birdProbabilityB
-              self.birdAudio2.volume = .4
-              self.birdAudio2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
-              self.birdAudio2.addEffect(self.birdAudio2Pan)
-              self.birdAudio2.addEffect(reverb1)
-              });
               self.flipCardB = true
             }
             if (probability >= birdProbabilityB) {
-              self.birdAudio2 = new Pizzicato.Sound(self.birdNumber2, function() {
-              self.birdAudio2.volume = 0
-              self.birdAudio2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
-              self.birdAudio2.addEffect(self.birdAudio2Pan)
-              self.birdAudio2.addEffect(reverb1)
-              });
               self.flipCardB = false
             }
             
             //2065
             if (probability <= birdProbabilityTwo) {
-              self.birdSong2 = new Pizzicato.Sound(self.birdNumber2, function() {
-              self.twentySixtyFiveVolume2 = birdProbabilityTwo
-              self.birdSong2.volume = .4
-              self.birdSong2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
-              self.birdSong2.addEffect(self.birdSong2Pan)
-              self.birdSong2.addEffect(reverb1)
-              });
               self.flipCardTwo = true
             }
             if (probability >= birdProbabilityTwo) {
-              self.birdSong2 = new Pizzicato.Sound(self.birdNumber2, function() {
-              self.birdSong2.volume = 0
-              self.birdSong2Pan = new Pizzicato.Effects.StereoPanner({pan: panValue2});
-              self.birdSong2.addEffect(self.birdSong2Pan)
-              self.birdSong2.addEffect(reverb1)
-              });
               self.flipCardTwo = false
             }
             
@@ -761,143 +632,62 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability3 = randomEntries[2].frequency_1970 * 10000
           var birdProbabilityC = randomEntries[2].frequency_2017 * 10000
           var birdProbabilityThree = randomEntries[2].frequency_2065 * 10000
-          var panValue3 = Math.random()*2 - 1
           
             //1970
             if (probability <= birdProbability3) {
-              self.birdSound3 = new Pizzicato.Sound(self.birdNumber3, function() {
-              self.nineteenSeventyVolume3 = birdProbability3
-              self.birdSound3.volume = .3
-              self.birdSound3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
-              self.birdSound3.addEffect(self.birdSound3Pan)
-              self.birdSound3.addEffect(reverb2)
-              });
               self.bs3 = true
               self.flipCard3 = true
             }
             if (probability >= birdProbability3) {
-              self.birdSound3 = new Pizzicato.Sound(self.birdNumber3, function() {
-              self.birdSound3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
-              self.birdSound3.volume = 0
-              self.birdSound3.addEffect(self.birdSound3Pan)
-              self.birdSound3.addEffect(reverb2)
-              });
               self.bs3 = false
               self.flipCard3 = false
             }
             
             //2017
             if (probability <= birdProbabilityC) {
-              self.birdAudio3 = new Pizzicato.Sound(self.birdNumber3, function() {
-              self.twentyTwentyVolume3 = birdProbabilityC
-              self.birdAudio3.volume = .3
-              self.birdAudio3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
-              self.birdAudio3.addEffect(self.birdAudio3Pan)
-              self.birdAudio3.addEffect(reverb2)
-              });
               self.flipCardC = true
             }
             if (probability >= birdProbabilityC) {
-              self.birdAudio3 = new Pizzicato.Sound(self.birdNumber3,  function() {
-              self.birdAudio3.volume = 0
-              self.birdAudio3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
-              self.birdAudio3.addEffect(self.birdAudio3Pan)
-              self.birdAudio3.addEffect(reverb2)
-              });
               self.flipCardC = false
             }
             
             //2065
             if (probability <= birdProbabilityThree) {
-              self.birdSong3 = new Pizzicato.Sound(self.birdNumber3, function() {
-              self.twentySixtyFiveVolume3 = birdProbabilityThree
-              self.birdSong3.volume = .3
-              self.birdSong3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
-              self.birdSong3.addEffect(self.birdSong3Pan)
-              self.birdSong3.addEffect(reverb2)
-              });
               self.flipCardThree = true
             }
             if (probability >= birdProbabilityThree) {
-              self.birdSong3 = new Pizzicato.Sound(self.birdNumber3, function() {
-              self.birdSong3.volume = 0
-              self.birdSong3Pan = new Pizzicato.Effects.StereoPanner({pan: panValue3});
-              self.birdSong3.addEffect(self.birdSong3Pan)
-              self.birdSong3.addEffect(reverb2)
-              });
               self.flipCardThree = false
             }
-
 //BIRD 4 - 50 Meters - 50% Volume 
           self.birdName4 = randomEntries[3].species
           self.birdNumber4 = randomEntries[3][soundConstructor]
           var birdProbability4 = randomEntries[3].frequency_1970 * 10000
           var birdProbabilityD = randomEntries[3].frequency_2017 * 10000
           var birdProbabilityFour = randomEntries[3].frequency_2065 * 10000
-          var panValue4 = Math.random()*2 - 1
           
             //1970
             if (probability <= birdProbability4) {
-              self.birdSound4 = new Pizzicato.Sound(self.birdNumber4, function() {
-              self.nineteenSeventyVolume4 = birdProbability4
-              self.birdSound4.volume = .3
-              self.birdSound4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
-              self.birdSound4.addEffect(self.birdSound4Pan)
-              self.birdSound4.addEffect(reverb2)
-              });
               self.bs4 = true
               self.flipCard4 = true
             }
             if (probability >= birdProbability4) {
-              self.birdSound4 = new Pizzicato.Sound(self.birdNumber4, function() {
-              self.birdSound4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
-              self.birdSound4.volume = 0
-              self.birdSound4.addEffect(self.birdSound4Pan)
-              self.birdSound4.addEffect(reverb2)
-              });
               self.bs4 = false
               self.flipCard4 = false
             }
             
             //2017
             if (probability <= birdProbabilityD) {
-              self.birdAudio4 = new Pizzicato.Sound(self.birdNumber4, function() {
-              self.twentyTwentyVolume4 = birdProbabilityD
-              self.birdAudio4.volume = .3
-              self.birdAudio4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
-              self.birdAudio4.addEffect(self.birdAudio4Pan)
-              self.birdAudio4.addEffect(reverb2)
-              });
               self.flipCardD = true
             }
             if (probability >= birdProbabilityD) {
-              self.birdAudio4 = new Pizzicato.Sound(self.birdNumber4, function() {
-              self.birdAudio4.volume = 0
-              self.birdAudio4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
-              self.birdAudio4.addEffect(self.birdAudio4Pan)
-              self.birdAudio4.addEffect(reverb2)
-              });
               self.flipCardD = false
             }
             
             //2065
             if (probability <= birdProbabilityFour) {
-              self.birdSong4 = new Pizzicato.Sound(self.birdNumber4, function() {
-              self.twentySixtyFiveVolume4 = birdProbabilityFour
-              self.birdSong4.volume = .3
-              self.birdSong4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
-              self.birdSong4.addEffect(self.birdSong4Pan)
-              self.birdSong4.addEffect(reverb2)
-              });
               self.flipCardFour = true
             }
             if (probability >= birdProbabilityFour) {
-              self.birdSong4 = new Pizzicato.Sound(self.birdNumber4, function() {
-              self.birdSong4.volume = 0
-              self.birdSong4Pan = new Pizzicato.Effects.StereoPanner({pan: panValue4});
-              self.birdSong4.addEffect(self.birdSong4Pan)
-              self.birdSong4.addEffect(reverb2)
-              });
               self.flipCardFour = false
             }
 
@@ -907,70 +697,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability5 = randomEntries[4].frequency_1970 * 10000
           var birdProbabilityE = randomEntries[4].frequency_2017 * 10000
           var birdProbabilityFive = randomEntries[4].frequency_2065 * 10000
-          var panValue5 = Math.random()*2 - 1
           
             //1970
             if (probability <= birdProbability5) {
-              self.birdSound5 = new Pizzicato.Sound(self.birdNumber5, function() {
-              self.nineteenSeventyVolume5 = birdProbability5
-              self.birdSound5.volume = .3
-              self.birdSound5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
-              self.birdSound5.addEffect(self.birdSound5Pan)
-              self.birdSound5.addEffect(reverb2)
-              });
               self.bs5 = true
               self.flipCard5 = true
             }
             if (probability >= birdProbability5) {
-              self.birdSound5 = new Pizzicato.Sound(self.birdNumber5, function() {
-              self.birdSound5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
-              self.birdSound5.volume = 0
-              self.birdSound5.addEffect(self.birdSound5Pan)
-              self.birdSound5.addEffect(reverb2)
-              });
               self.bs5 = false
               self.flipCard5 = false
             }
             
             //2017
             if (probability <= birdProbabilityE) {
-              self.birdAudio5 = new Pizzicato.Sound(self.birdNumber5, function() {
-              self.twentyTwentyVolume5 = birdProbabilityE
-              self.birdAudio5.volume = .3
-              self.birdAudio5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
-              self.birdAudio5.addEffect(self.birdAudio5Pan)
-              self.birdAudio5.addEffect(reverb2)
-              });
               self.flipCardE = true
             }
             if (probability >= birdProbabilityE) {
-              self.birdAudio5 = new Pizzicato.Sound(self.birdNumber5, function() {
-              self.birdAudio5.volume = 0
-              self.birdAudio5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
-              self.birdAudio5.addEffect(self.birdAudio5Pan)
-              self.birdAudio5.addEffect(reverb2)
-              });
               self.flipCardE = false
             }
             
             //2065
             if (probability <= birdProbabilityFive) {
-              self.birdSong5 = new Pizzicato.Sound(self.birdNumber5, function() {
-              self.twentySixtyFiveVolume5 = birdProbabilityFive
-              self.birdSong5.volume = .3
-              self.birdSong5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
-              self.birdSong5.addEffect(self.birdSong5Pan)
-              self.birdSong5.addEffect(reverb2)
-              });
               self.flipCardFive = true
             }
             if (probability >= birdProbabilityFive) {
-              self.birdSong5 = new Pizzicato.Sound(self.birdNumber5, function() {
-              self.birdSong5.volume = 0
-              self.birdSong5Pan = new Pizzicato.Effects.StereoPanner({pan: panValue5});
-              self.birdSong5.addEffect(self.birdSong5Pan)
-              self.birdSong5.addEffect(reverb2)
-              });
               self.flipCardFive = false
             }
             
@@ -980,70 +730,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability6 = randomEntries[5].frequency_1970 * 10000
           var birdProbabilityF = randomEntries[5].frequency_2017 * 10000
           var birdProbabilitySix = randomEntries[5].frequency_2065 * 10000
-          var panValue6 = Math.random()*2 - 1
           
             //1970
             if (probability <= birdProbability6) {
-              self.birdSound6 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.nineteenSeventyVolume6 = birdProbability6
-              self.birdSound6.volume = .2 
-              self.birdSound6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
-              self.birdSound6.addEffect(self.birdSound6Pan)
-              self.birdSound6.addEffect(reverb3)
-              });
               self.bs6 = true
               self.flipCard6 = true
             }
             if (probability >= birdProbability6) {
-              self.birdSound6 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.birdSound6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
-              self.birdSound6.volume = 0
-              self.birdSound6.addEffect(self.birdSound6Pan)
-              self.birdSound6.addEffect(reverb3)
-              });
               self.bs6 = false
               self.flipCard6 = false
             }
             
             //2017
             if (probability <= birdProbabilityF) {
-              self.birdAudio6 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.twentyTwentyVolume6 = birdProbabilityF
-              self.birdAudio6.volume = .2
-              self.birdAudio6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
-              self.birdAudio6.addEffect(self.birdAudio6Pan)
-              self.birdAudio6.addEffect(reverb3)
-              });
               self.flipCardF = true
             }
             if (probability >= birdProbabilityF) {
-              self.birdAudio6 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.birdAudio6.volume = 0
-              self.birdAudio6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
-              self.birdAudio6.addEffect(self.birdAudio6Pan)
-              self.birdAudio6.addEffect(reverb3)
-              });
               self.flipCardF = false
             }
             
             //2065
             if (probability <= birdProbabilitySix) {
-              self.birdSong6 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.twentySixtyFiveVolume6 = birdProbabilitySix
-              self.birdSong6.volume = .2
-              self.birdSong6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
-              self.birdSong6.addEffect(self.birdSong6Pan)
-              self.birdSong6.addEffect(reverb3)
-              });
               self.flipCardSix = true
             }
             if (probability >= birdProbabilitySix) {
-              self.birdSong6 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.birdSong6.volume = 0
-              self.birdSong6Pan = new Pizzicato.Effects.StereoPanner({pan: panValue6});
-              self.birdSong6.addEffect(self.birdSong6Pan)
-              self.birdSong6.addEffect(reverb3)
-              });
               self.flipCardSix = false
             }
 
@@ -1053,70 +763,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability7 = randomEntries[6].frequency_1970 * 10000
           var birdProbabilityG = randomEntries[6].frequency_2017 * 10000
           var birdProbabilitySeven = randomEntries[6].frequency_2065 * 10000
-          var panValue7 = Math.random()*2 - 1
           
           //1970
             if (probability <= birdProbability7) {
-              self.birdSound7 = new Pizzicato.Sound(self.birdNumber7, function() {
-              self.nineteenSeventyVolume7 = birdProbability7
-              self.birdSound7.volume = .15
-              self.birdSound7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
-              self.birdSound7.addEffect(self.birdSound7Pan)
-              self.birdSound7.addEffect(reverb4)
-              });
               self.bs7 = true
               self.flipCard7 = true
             }
             if (probability >= birdProbability7) {
-              self.birdSound7 = new Pizzicato.Sound(self.birdNumber7, function() {
-              self.birdSound7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
-              self.birdSound7.volume = 0
-              self.birdSound7.addEffect(self.birdSound7Pan)
-              self.birdSound7.addEffect(reverb4)
-              });
               self.bs7 = false
               self.flipCard7 = false
             }
             
             //2017
             if (probability <= birdProbabilityG) {
-              self.birdAudio7 = new Pizzicato.Sound(self.birdNumber6, function() {
-              self.twentyTwentyVolume7 = birdProbabilityG
-              self.birdAudio7.volume = .15
-              self.birdAudio7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
-              self.birdAudio7.addEffect(self.birdAudio7Pan)
-              self.birdAudio7.addEffect(reverb4)
-              });
               self.flipCardG = true
             }
             if (probability >= birdProbabilityG) {
-              self.birdAudio7 = new Pizzicato.Sound(self.birdNumber7, function() {
-              self.birdAudio7.volume = 0
-              self.birdAudio7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
-              self.birdAudio7.addEffect(self.birdAudio7Pan)
-              self.birdAudio7.addEffect(reverb4)
-              });
               self.flipCardG = false
             }
             
             //2065
             if (probability <= birdProbabilitySeven) {
-              self.birdSong7 = new Pizzicato.Sound(self.birdNumber7, function() {
-              self.twentySixtyFiveVolume7 = birdProbabilitySeven
-              self.birdSong7.volume = .15
-              self.birdSong7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
-              self.birdSong7.addEffect(self.birdSong7Pan)
-              self.birdSong7.addEffect(reverb4)
-              });
               self.flipCardSeven = true
             }
             if (probability >= birdProbabilitySeven) {
-              self.birdSong7 = new Pizzicato.Sound(self.birdNumber7, function() {
-              self.birdSong7.volume = 0
-              self.birdSong7Pan = new Pizzicato.Effects.StereoPanner({pan: panValue7});
-              self.birdSong7.addEffect(self.birdSong7Pan)
-              self.birdSong7.addEffect(reverb4)
-              });
               self.flipCardSeven = false
             }
             
@@ -1126,69 +796,29 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability8 = randomEntries[7].frequency_1970 * 10000
           var birdProbabilityH = randomEntries[7].frequency_2017 * 10000
           var birdProbabilityEight = randomEntries[7].frequency_2065 * 10000
-          var panValue8 = Math.random()*2 - 1
           
           //1970
             if (probability <= birdProbability8) {
-              self.birdSound8 = new Pizzicato.Sound(self.birdNumber8, function() {
-              self.nineteenSeventyVolume8 = birdProbability8
-              self.birdSound8.volume = .10
-              self.birdSound8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
-              self.birdSound8.addEffect(self.birdSound8Pan)
-              self.birdSound8.addEffect(reverb5)
-              });
               self.bs8 = true
               self.flipCard8 = true
             }
             if (probability >= birdProbability8) {
-              self.birdSound8 = new Pizzicato.Sound(self.birdNumber8, function() {
-              self.birdSound8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
-              self.birdSound8.volume = 0
-              self.birdSound8.addEffect(self.birdSound8Pan)
-              self.birdSound8.addEffect(reverb5)
-              });
               self.bs8 = false
               self.flipCard5 = false
             }
             
             //2017
             if (probability <= birdProbabilityH) {
-              self.birdAudio8 = new Pizzicato.Sound(self.birdNumber7, function() {
-              self.twentyTwentyVolume8 = birdProbabilityH
-              self.birdAudio8.volume = .10
-              self.birdAudio8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
-              self.birdAudio8.addEffect(self.birdAudio8Pan)
-              self.birdAudio8.addEffect(reverb5)
-              });
               self.flipCardH = true
             }
             if (probability >= birdProbabilityH) {
-              self.birdAudio8 = new Pizzicato.Sound(self.birdNumber8, function() {
-              self.birdAudio8.volume = 0
-              self.birdAudio8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
-              self.birdAudio8.addEffect(self.birdAudio8Pan)
-              self.birdAudio8.addEffect(reverb5)
-              });
               self.flipCardH = false
             }
             //2065
             if (probability <= birdProbabilityEight) {
-              self.birdSong8 = new Pizzicato.Sound(self.birdNumber8, function() {
-              self.twentySixtyFiveVolume8 = birdProbabilityEight
-              self.birdSong8.volume = .10
-              self.birdSong8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
-              self.birdSong8.addEffect(self.birdSong8Pan)
-              self.birdSong8.addEffect(reverb5)
-              });
               self.flipCardEight = true
             }
             if (probability >= birdProbabilityEight) {
-              self.birdSong8 = new Pizzicato.Sound(self.birdNumber8, function() {
-              self.birdSong8.volume = 0
-              self.birdSong8Pan = new Pizzicato.Effects.StereoPanner({pan: panValue8});
-              self.birdSong8.addEffect(self.birdSong8Pan)
-              self.birdSong8.addEffect(reverb5)
-              });
               self.flipCardEight = false
             }
             
@@ -1198,70 +828,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability9 = randomEntries[8].frequency_1970 * 10000
           var birdProbabilityI = randomEntries[8].frequency_2017 * 10000
           var birdProbabilityNine = randomEntries[8].frequency_2065 * 10000
-          var panValue9 = Math.random()*2 - 1
          
           //1970
             if (probability <= birdProbability9) {
-              self.birdSound9 = new Pizzicato.Sound(self.birdNumber9, function() {
-              self.nineteenSeventyVolume9 = birdProbability9
-              self.birdSound9.volume = .05
-              self.birdSound9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
-              self.birdSound9.addEffect(self.birdSound9Pan)
-              self.birdSound9.addEffect(reverb5)
-              });
               self.bs9 = true
               self.flipCard9 = true
             }
             if (probability >= birdProbability9) {
-              self.birdSound9 = new Pizzicato.Sound(self.birdNumber9, function() {
-              self.birdSound9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
-              self.birdSound9.volume = 0
-              self.birdSound9.addEffect(self.birdSound9Pan)
-              self.birdSound9.addEffect(reverb5)
-              });
               self.bs9 = false
               self.flipCard9 = false
             }
             
             //2017
             if (probability <= birdProbabilityI) {
-              self.birdAudio9 = new Pizzicato.Sound(self.birdNumber8, function() {
-              self.twentyTwentyVolume9 = birdProbabilityI
-              self.birdAudio9.volume = .05
-              self.birdAudio9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
-              self.birdAudio9.addEffect(self.birdAudio9Pan)
-              self.birdAudio9.addEffect(reverb5)
-              });
               self.flipCardI = true
             }
             if (probability >= birdProbabilityI) {
-              self.birdAudio9 = new Pizzicato.Sound(self.birdNumber9, function() {
-              self.birdAudio9.volume = 0
-              self.birdAudio9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
-              self.birdAudio9.addEffect(self.birdAudio9Pan)
-              self.birdAudio9.addEffect(reverb5)
-              });
               self.flipCardI = false
             }
             
             //2065
             if (probability <= birdProbabilityNine) {
-              self.birdSong9 = new Pizzicato.Sound(self.birdNumber9, function() {
-              self.twentySixtyFiveVolume9 = birdProbabilityNine
-              self.birdSong9.volume = .05
-              self.birdSong9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
-              self.birdSong9.addEffect(self.birdSong9Pan)
-              self.birdSong9.addEffect(reverb5)
-              });
               self.flipCardNine = true
             }
             if (probability >= birdProbabilityNine) {
-              self.birdSong9 = new Pizzicato.Sound(self.birdNumber9, function() {
-              self.birdSong9.volume = 0
-              self.birdSong9Pan = new Pizzicato.Effects.StereoPanner({pan: panValue9});
-              self.birdSong9.addEffect(self.birdSong9Pan)
-              self.birdSong9.addEffect(reverb5)
-              });
               self.flipCardNine = false
             }
             
@@ -1271,70 +861,30 @@ var reverb5 = new Pizzicato.Effects.Reverb({
           var birdProbability10 = randomEntries[9].frequency_1970 * 10000
           var birdProbabilityJ = randomEntries[9].frequency_2017 * 10000
           var birdProbabilityTen = randomEntries[9].frequency_2065 * 10000
-          var panValue10 = Math.random()*2 - 1
           
           //1970
             if (probability <= birdProbability10) {
-              self.birdSound10 = new Pizzicato.Sound(self.birdNumber10, function() {
-              self.nineteenSeventyVolume10 = birdProbability10
-              self.birdSound10.volume = .02
-              self.birdSound10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
-              self.birdSound10.addEffect(self.birdSound10Pan)
-              self.birdSound10.addEffect(reverb5)
-              });
               self.bs10 = true
               self.flipCard10 = true
             }
             if (probability >= birdProbability10) {
-              self.birdSound10 = new Pizzicato.Sound(self.birdNumber10, function() {
-              self.birdSound10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
-              self.birdSound10.volume = 0
-              self.birdSound10.addEffect(self.birdSound10Pan)
-              self.birdSound10.addEffect(reverb5)
-              });
               self.bs10 = false
               self.flipCard10 = false
             }
             
             //2017
             if (probability <= birdProbabilityJ) {
-              self.birdAudio10 = new Pizzicato.Sound(self.birdNumber10, function() {
-              self.twentyTwentyVolume10 = birdProbabilityJ
-              self.birdAudio10.volume = .02
-              self.birdAudio10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
-              self.birdAudio10.addEffect(self.birdAudio10Pan)
-              self.birdAudio10.addEffect(reverb5)
-              });
               self.flipCardJ = true
             }
             if (probability >= birdProbabilityJ) {
-              self.birdAudio10 = new Pizzicato.Sound(self.birdNumber10, function() {
-              self.birdAudio10.volume = 0
-              self.birdAudio10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
-              self.birdAudio10.addEffect(self.birdAudio10Pan)
-              self.birdAudio10.addEffect(reverb5)
-              });
               self.flipCardJ = false
             }
             
             //2065
             if (probability <= birdProbabilityTen) {
-              self.birdSong10 = new Pizzicato.Sound(self.birdNumber10, function() {
-              self.twentySixtyFiveVolume10 = birdProbabilityTen
-              self.birdSong10.volume = .02
-              self.birdSong10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
-              self.birdSong10.addEffect(self.birdSong10Pan)
-              self.birdSong10.addEffect(reverb5)
-              });
               self.flipCardTen = true
             }
             if (probability >= birdProbabilityTen) {
-              self.birdSong10 = new Pizzicato.Sound(self.birdNumber10, function() {
-              self.birdSong10.volume = 0
-              self.birdSong10Pan = new Pizzicato.Effects.StereoPanner({pan: panValue10});
-              self.birdSong10.addEffect(self.birdSong10Pan)
-              self.birdSong10.addEffect(reverb5)
-              });
               self.flipCardTen = false
             }
 			if (self.bs1 == false || self.bs2 == false || self.bs3 == false || self.bs4 == false || self.bs5 == false || self.bs6 == false || self.bs7 == false || self.bs8 == false || self.bs9 == false || self.bs10 == false) {
@@ -1352,14 +902,19 @@ var reverb5 = new Pizzicato.Effects.Reverb({
 				self.processing = ""
 				self.isHidden2 = true
 				self.resetHidden = true
+				self.loadSounds()
 				
 				
 			}
-          self.group = new Pizzicato.Group([]);
+				
+          //self.group = new Pizzicato.Group([]);
        })
        .catch(function (error) {
        console.log(error);
-       self.processing = error + " Please click the reset button and try again"
+       self.processing = error + ". Restarting."
+       self.sleep(200).then(() => {
+        self.loopFour()
+          })
        if (error) {self.resetHidden = true
        }
        })
@@ -1377,37 +932,157 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         loopThree: function () {
       this.fiftyFifty()
     },
+    
+    loopFour: function () {
+      this.generateSoundscape()
+    },
+    
+		loadSounds: function () {
+//1970	
+		this.birdSound1 = new Audio(this.birdNumber1)
+        this.birdSound1.volume = 1
+        
+        this.birdSound2 = new Audio(this.birdNumber2)
+        this.birdSound2.volume = 1
+        
+        this.birdSound3 = new Audio(this.birdNumber3)
+        this.birdSound3.volume = .5
+        
+        this.birdSound4 = new Audio(this.birdNumber4)
+        this.birdSound4.volume = .5
+        
+        this.birdSound5 = new Audio(this.birdNumber5)
+        this.birdSound5.volume = .5
+        
+        this.birdSound6 = new Audio(this.birdNumber6)
+        this.birdSound6.volume = .25
+        
+        this.birdSound7 = new Audio(this.birdNumber7)
+        this.birdSound7.volume = .2
+        
+        this.birdSound8 = new Audio(this.birdNumber8)
+        this.birdSound8.volume = .12
+        
+        this.birdSound9 = new Audio(this.birdNumber9)
+        this.birdSound9.volume = .08
+        
+        this.birdSound10 = new Audio(this.birdNumber10)
+        this.birdSound10.volume = .03
+
+//2020       
+//         this.birdAudio1 = new Audio(this.birdNumber1)
+//         this.birdAudio1.volume = 1
+//         
+//         this.birdAudio2 = new Audio(this.birdNumber2)
+//         this.birdAudio2.volume = 1
+//         
+//         this.birdAudio3 = new Audio(this.birdNumber3)
+//         this.birdAudio3.volume = .5
+        
+        this.birdAudio4 = new Audio(this.birdNumber4)
+        this.birdAudio4.volume = .5
+        
+        this.birdAudio5 = new Audio(this.birdNumber5)
+        this.birdAudio5.volume = .5
+        
+        this.birdAudio6 = new Audio(this.birdNumber6)
+        this.birdAudio6.volume = .25
+        
+        this.birdAudio7 = new Audio(this.birdNumber7)
+        this.birdAudio7.volume = .2
+        
+        this.birdAudio8 = new Audio(this.birdNumber8)
+        this.birdAudio8.volume = .12
+        
+        this.birdAudio9 = new Audio(this.birdNumber9)
+        this.birdAudio9.volume = .08
+        
+        this.birdAudio10 = new Audio(this.birdNumber10)
+        this.birdAudio10.volume = .03
+
+//2065
+
+// 		this.birdSong1 = new Audio(this.birdNumber1)
+//         this.birdSong1.volume = 1
+//         
+//         this.birdSong2 = new Audio(this.birdNumber2)
+//         this.birdSong2.volume = 1
+//         
+//         this.birdSong3 = new Audio(this.birdNumber3)
+//         this.birdSong3.volume = .5
+//         
+//         this.birdSong4 = new Audio(this.birdNumber4)
+//         this.birdSong4.volume = .5
+//         
+//         this.birdSong5 = new Audio(this.birdNumber5)
+//         this.birdSong5.volume = .5
+//         
+        this.birdSong6 = new Audio(this.birdNumber6)
+        this.birdSong6.volume = .25
+        
+        this.birdSong7 = new Audio(this.birdNumber7)
+        this.birdSong7.volume = .2
+        
+        this.birdSong8 = new Audio(this.birdNumber8)
+        this.birdSong8.volume = .12
+        
+        this.birdSong9 = new Audio(this.birdNumber9)
+        this.birdSong9.volume = .08
+        
+        this.birdSong10 = new Audio(this.birdNumber10)
+        this.birdSong10.volume = .03
+    },
+    
+    //TODO convert plays from pizzicato groups for twenty and sixty five conditions
     nineteenSeventy: function (){
-        if (this.seventyStop == true) {
-          this.group.stop()
-          //turned off 
-          //this.group.removeSound(this.birdAudio1)
-          //this.group.removeSound(this.birdAudio2)
-          this.group.removeSound(this.birdAudio3)
-          this.group.removeSound(this.birdAudio4)
-          this.group.removeSound(this.birdAudio5)
-          this.group.removeSound(this.birdAudio6)
-          this.group.removeSound(this.birdAudio7)
-          this.group.removeSound(this.birdAudio8)
-          this.group.removeSound(this.birdAudio9)
-          this.group.removeSound(this.birdAudio10)
-          this.seventyStop = false
+        if (this.twentyStop == true) {
+//           this.birdAudio1.pause();
+//           this.birdAudio1.currentTime = 0;
+//           this.birdAudio2.pause();
+//           this.birdAudio2.currentTime = 0;
+//           this.birdAudio3.pause();
+//           this.birdAudio3.currentTime = 0;
+          this.birdAudio4.pause();
+          this.birdAudio4.currentTime = 0;
+          this.birdAudio5.pause();
+          this.birdAudio5.currentTime = 0;
+          this.birdAudio6.pause();
+          this.birdAudio6.currentTime = 0;
+          this.birdAudio7.pause();
+          this.birdAudio7.currentTime = 0;
+          this.birdAudio8.pause();
+          this.birdAudio8.currentTime = 0;
+          this.birdAudio9.pause();
+          this.birdAudio9.currentTime = 0;
+          this.birdAudio10.pause();
+          this.birdAudio10.currentTime = 0;
+          
+          this.twentyStop = false
           this.sleep(200).then(() => {
             this.loopOne()
           })
         }
         if (this.sixtyFiveStop == true) {
-          this.group.stop()
-          //this.group.removeSound(this.birdSong1)
-          //this.group.removeSound(this.birdSong2)
-          //this.group.removeSound(this.birdSong3)
-          //this.group.removeSound(this.birdSong4)
-          this.group.removeSound(this.birdSong5)
-          this.group.removeSound(this.birdSong6)
-          this.group.removeSound(this.birdSong7)
-          this.group.removeSound(this.birdSong8)
-          this.group.removeSound(this.birdSong9)
-          this.group.removeSound(this.birdSong10)
+			//this.birdSong1.pause();
+//           this.birdSong1.currentTime = 0;
+//           this.birdSong2.pause();
+//           this.birdSong2.currentTime = 0;
+//           this.birdSong3.pause();
+//           this.birdSong3.currentTime = 0;
+//           this.birdSong4.pause();
+//           this.birdSong4.currentTime = 0;
+//           this.birdSong5.pause();
+//           this.birdSong5.currentTime = 0;
+          this.birdSong6.pause();
+          this.birdSong6.currentTime = 0;
+          this.birdSong7.pause();
+          this.birdSong7.currentTime = 0;
+          this.birdSong8.pause();
+          this.birdSong8.currentTime = 0;
+          this.birdSong9.pause();
+          this.birdSong9.currentTime = 0;
+          this.birdSong10.pause();
+          this.birdSong10.currentTime = 0;
           
           this.sixtyFiveStop = false
           this.sleep(200).then(() => {
@@ -1423,16 +1098,6 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         var canvas = document.getElementsByTagName("canvas")[0]
         canvas.width = 0
         canvas.height = 0
-        this.group.addSound(this.birdSound1)
-        this.group.addSound(this.birdSound2)
-        this.group.addSound(this.birdSound3)
-        this.group.addSound(this.birdSound4)
-        this.group.addSound(this.birdSound5)
-        this.group.addSound(this.birdSound6)
-        this.group.addSound(this.birdSound7)
-        this.group.addSound(this.birdSound8)
-        this.group.addSound(this.birdSound9)
-        this.group.addSound(this.birdSound10)
         
         this.msg = "1970"
         this.msg2 = ""
@@ -1447,17 +1112,6 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         this.card9 = false;
         this.card10 = false;
         this.stop = false; 
-        
-        this.birdSoundVolume1 = this.nineteenSeventyVolume1;
-        this.birdSoundVolume2 = this.nineteenSeventyVolume2; 
-        this.birdSoundVolume3 = this.nineteenSeventyVolume3; 
-        this.birdSoundVolume4 = this.nineteenSeventyVolume4; 
-        this.birdSoundVolume5 = this.nineteenSeventyVolume5; 
-        this.birdSoundVolume6 = this.nineteenSeventyVolume6;
-        this.birdSoundVolume7 = this.nineteenSeventyVolume7;   
-        this.birdSoundVolume8 = this.nineteenSeventyVolume8;  
-        this.birdSoundVolume9 = this.nineteenSeventyVolume9;  
-        this.birdSoundVolume10 = this.nineteenSeventyVolume10;   
         
         if (this.flipCard1 == true) {
           this.card1 = true; 
@@ -1495,59 +1149,66 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         }
         
         this.sleep(500).then(() => {
-          this.visualizeNineteenSeventy()
+			this.visualizeNineteenSeventy()
         })
         }
     },
     twentyTwenty: function (){
-        if (this.twentyStop == true) {
-          this.group.stop()
-          this.group.removeSound(this.birdSound1)
-          this.group.removeSound(this.birdSound2)
-          this.group.removeSound(this.birdSound3)
-          this.group.removeSound(this.birdSound4)
-          this.group.removeSound(this.birdSound5)
-          this.group.removeSound(this.birdSound6)
-          this.group.removeSound(this.birdSound7)
-          this.group.removeSound(this.birdSound8)
-          this.group.removeSound(this.birdSound9)
-          this.group.removeSound(this.birdSound10)
-          this.twentyStop = false
+        if (this.seventyStop == true) {
+          this.birdSound1.pause();
+          this.birdSound1.currentTime = 0;
+          this.birdSound2.pause();
+          this.birdSound2.currentTime = 0;
+          this.birdSound3.pause();
+          this.birdSound3.currentTime = 0;
+          this.birdSound4.pause();
+          this.birdSound4.currentTime = 0;
+          this.birdSound5.pause();
+          this.birdSound5.currentTime = 0;
+          this.birdSound6.pause();
+          this.birdSound6.currentTime = 0;
+          this.birdSound7.pause();
+          this.birdSound7.currentTime = 0;
+          this.birdSound8.pause();
+          this.birdSound8.currentTime = 0;
+          this.birdSound9.pause();
+          this.birdSound9.currentTime = 0;
+          this.birdSound10.pause();
+          this.birdSound10.currentTime = 0;
+          
+          this.seventyStop = false
           this.sleep(200).then(() => {
             this.loopTwo()
           })
         }
         if (this.sixtyFiveStop == true) {
-          this.group.stop()
-          //this.group.removeSound(this.birdSong1)
-          //this.group.removeSound(this.birdSong2)
-          //this.group.removeSound(this.birdSong3)
-          //this.group.removeSound(this.birdSong4)
-          this.group.removeSound(this.birdSong5)
-          this.group.removeSound(this.birdSong6)
-          this.group.removeSound(this.birdSong7)
-          this.group.removeSound(this.birdSong8)
-          this.group.removeSound(this.birdSong9)
-          this.group.removeSound(this.birdSong10)
+//           this.birdSong1.pause();
+//           this.birdSong1.currentTime = 0;
+//           this.birdSong2.pause();
+//           this.birdSong2.currentTime = 0;
+//           this.birdSong3.pause();
+//           this.birdSong3.currentTime = 0;
+//           this.birdSong4.pause();
+//           this.birdSong4.currentTime = 0;
+//           this.birdSong5.pause();
+//           this.birdSong5.currentTime = 0;
+          this.birdSong6.pause();
+          this.birdSong6.currentTime = 0;
+          this.birdSong7.pause();
+          this.birdSong7.currentTime = 0;
+          this.birdSong8.pause();
+          this.birdSong8.currentTime = 0;
+          this.birdSong9.pause();
+          this.birdSong9.currentTime = 0;
+          this.birdSong10.pause();
+          this.birdSong10.currentTime = 0;
           
           this.sixtyFiveStop = false
           this.sleep(200).then(() => {
             this.loopTwo()
           })
         }
-        
-//         
-//                   this.group.removeSound(this.birdSound1)
-//           this.group.removeSound(this.birdSound2)
-//           this.group.removeSound(this.birdSound3)
-//           this.group.removeSound(this.birdSound4)
-//           this.group.removeSound(this.birdSound5)
-//           this.group.removeSound(this.birdSound6)
-//           this.group.removeSound(this.birdSound7)
-//           this.group.removeSound(this.birdSound8)
-//           this.group.removeSound(this.birdSound9)
-//           this.group.removeSound(this.birdSound10)
-        
+
         else {
         this.msg4 = ""
         //this.meters1 = '--------------------------------------------------------------------------------   10-40 Meters   --------------------------------------------------------------------------------', 
@@ -1556,18 +1217,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         
         var canvas = document.getElementsByTagName("canvas")[0]
         canvas.width = 0
-        canvas.height = 0
-        //this.group.addSound(this.birdAudio1)
-        //this.group.addSound(this.birdAudio2)
-        //this.group.addSound(this.birdAudio3)
-        this.group.addSound(this.birdAudio4)
-        this.group.addSound(this.birdAudio5)
-        this.group.addSound(this.birdAudio6)
-        this.group.addSound(this.birdAudio7)
-        this.group.addSound(this.birdAudio8)
-        this.group.addSound(this.birdAudio9)
-        this.group.addSound(this.birdAudio10)
-        
+        canvas.height = 0 
         
         this.msg = "2017"
         this.msg2 = ""
@@ -1582,17 +1232,7 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         this.card9 = false;
         this.card10 = false;
         this.stop = false; 
-        
-        this.birdSoundVolume1 = this.twentyTwentyVolume1;
-        this.birdSoundVolume2 = this.twentyTwentyVolume2;
-        this.birdSoundVolume3 = this.twentyTwentyVolume3;
-        this.birdSoundVolume4 = this.twentyTwentyVolume4;
-        this.birdSoundVolume5 = this.twentyTwentyVolume5;
-        this.birdSoundVolume6 = this.twentyTwentyVolume6; 
-        this.birdSoundVolume7 = this.twentyTwentyVolume7; 
-        this.birdSoundVolume8 = this.twentyTwentyVolume8; 
-        this.birdSoundVolume9 = this.twentyTwentyVolume9; 
-        this.birdSoundVolume10 = this.twentyTwentyVolume10; 
+
         
         if (this.flipCardA == true) {
           //this.card1 = true; 
@@ -1630,23 +1270,32 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         }
         this.stop = true; 
         this.sleep(500).then(() => {
-          this.visualizeTwentyTwenty()
+			this.visualizeTwentyTwenty()
         })
         }
     },
     fiftyFifty: function (){
         if (this.seventyStop == true) {
-          this.group.stop()
-          //this.group.removeSound(this.birdAudio1)
-          //this.group.removeSound(this.birdAudio2)
-          this.group.removeSound(this.birdAudio3)
-          this.group.removeSound(this.birdAudio4)
-          this.group.removeSound(this.birdAudio5)
-          this.group.removeSound(this.birdAudio6)
-          this.group.removeSound(this.birdAudio7)
-          this.group.removeSound(this.birdAudio8)
-          this.group.removeSound(this.birdAudio9)
-          this.group.removeSound(this.birdAudio10)
+          this.birdSound1.pause();
+          this.birdSound1.currentTime = 0;
+          this.birdSound2.pause();
+          this.birdSound2.currentTime = 0;
+          this.birdSound3.pause();
+          this.birdSound3.currentTime = 0;
+          this.birdSound4.pause();
+          this.birdSound4.currentTime = 0;
+          this.birdSound5.pause();
+          this.birdSound5.currentTime = 0;
+          this.birdSound6.pause();
+          this.birdSound6.currentTime = 0;
+          this.birdSound7.pause();
+          this.birdSound7.currentTime = 0;
+          this.birdSound8.pause();
+          this.birdSound8.currentTime = 0;
+          this.birdSound9.pause();
+          this.birdSound9.currentTime = 0;
+          this.birdSound10.pause();
+          this.birdSound10.currentTime = 0;
           
           this.seventyStop = false
           this.sleep(200).then(() => {
@@ -1655,17 +1304,27 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         }
         
         if (this.twentyStop == true) {
-          this.group.stop()
-          this.group.removeSound(this.birdSound1)
-          this.group.removeSound(this.birdSound2)
-          this.group.removeSound(this.birdSound3)
-          this.group.removeSound(this.birdSound4)
-          this.group.removeSound(this.birdSound5)
-          this.group.removeSound(this.birdSound6)
-          this.group.removeSound(this.birdSound7)
-          this.group.removeSound(this.birdSound8)
-          this.group.removeSound(this.birdSound9)
-          this.group.removeSound(this.birdSound10)
+//           this.birdAudio1.pause();
+//           this.birdAudio1.currentTime = 0;
+//           this.birdAudio2.pause();
+//           this.birdAudio2.currentTime = 0;
+//           this.birdAudio3.pause();
+//           this.birdAudio3.currentTime = 0;
+          this.birdAudio4.pause();
+          this.birdAudio4.currentTime = 0;
+          this.birdAudio5.pause();
+          this.birdAudio5.currentTime = 0;
+          this.birdAudio6.pause();
+          this.birdAudio6.currentTime = 0;
+          this.birdAudio7.pause();
+          this.birdAudio7.currentTime = 0;
+          this.birdAudio8.pause();
+          this.birdAudio8.currentTime = 0;
+          this.birdAudio9.pause();
+          this.birdAudio9.currentTime = 0;
+          this.birdAudio10.pause();
+          this.birdAudio10.currentTime = 0;
+          
           this.twentyStop = false
           this.sleep(200).then(() => {
             this.loopThree()
@@ -1680,16 +1339,6 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         var canvas = document.getElementsByTagName("canvas")[0]
         canvas.width = 0
         canvas.height = 0
-        //this.group.addSound(this.birdSong1)
-        //this.group.addSound(this.birdSong2)
-        //this.group.addSound(this.birdSong3)
-        //this.group.addSound(this.birdSong4)
-        //this.group.addSound(this.birdSong5)
-        this.group.addSound(this.birdSong6)
-        this.group.addSound(this.birdSong7)
-        this.group.addSound(this.birdSong8)
-        this.group.addSound(this.birdSong9)
-        this.group.addSound(this.birdSong10)
         
         this.msg = "2065"
         this.msg2 = ""
@@ -1704,17 +1353,6 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         this.card9 = false;
         this.card10 = false;
         this.stop = false; 
-        
-        this.birdSoundVolume1 = this.twentySixtyFiveVolume1;
-        this.birdSoundVolume2 = this.twentySixtyFiveVolume2;
-        this.birdSoundVolume3 = this.twentySixtyFiveVolume3;
-        this.birdSoundVolume4 = this.twentySixtyFiveVolume4;
-        this.birdSoundVolume5 = this.twentySixtyFiveVolume5;
-        this.birdSoundVolume6 = this.twentySixtyFiveVolume6; 
-        this.birdSoundVolume7 = this.twentySixtyFiveVolume7; 
-        this.birdSoundVolume8 = this.ttwentySixtyFiveVolume8; 
-        this.birdSoundVolume9 = this.twentySixtyFiveVolume9; 
-        this.birdSoundVolume10 = this.twentySixtyFiveVolume10; 
         
         if (this.flipCardOne == true) {
           //this.card1 = true; 
@@ -1752,15 +1390,11 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         }
         this.stop = true; 
         this.sleep(500).then(() => {
-          this.visualizeTwentySixtyFive()
+			this.visualizeTwentySixtyFive()
         })
         }
     },
-    end: function (){
-      this.group.stop();
-    },
     reset: function () {
-        this.group.stop()
         this.resetHidden = false
         this.woodLand = false; 
         this.coast = false; 
@@ -1787,119 +1421,212 @@ var reverb5 = new Pizzicato.Effects.Reverb({
         var canvas = document.getElementsByTagName("canvas")[0]
         canvas.width = 0
         canvas.height = 0
-        if (this.stop == false){
-          this.group.stop()
-          this.end()
-        }
-        if (this.stop == true){
-          this.end()
-        }
+
+        
+          this.birdSound1.pause();
+          this.birdSound1.currentTime = 0;
+          this.birdSound2.pause();
+          this.birdSound2.currentTime = 0;
+          this.birdSound3.pause();
+          this.birdSound3.currentTime = 0;
+          this.birdSound4.pause();
+          this.birdSound4.currentTime = 0;
+          this.birdSound5.pause();
+          this.birdSound5.currentTime = 0;
+          this.birdSound6.pause();
+          this.birdSound6.currentTime = 0;
+          this.birdSound7.pause();
+          this.birdSound7.currentTime = 0;
+          this.birdSound8.pause();
+          this.birdSound8.currentTime = 0;
+          this.birdSound9.pause();
+          this.birdSound9.currentTime = 0;
+          this.birdSound10.pause();
+          this.birdSound10.currentTime = 0;
+          
+//           this.birdAudio1.pause();
+//           this.birdAudio1.currentTime = 0;
+//           this.birdAudio2.pause();
+//           this.birdAudio2.currentTime = 0;
+//           this.birdAudio3.pause();
+//           this.birdAudio3.currentTime = 0;
+          this.birdAudio4.pause();
+          this.birdAudio4.currentTime = 0;
+          this.birdAudio5.pause();
+          this.birdAudio5.currentTime = 0;
+          this.birdAudio6.pause();
+          this.birdAudio6.currentTime = 0;
+          this.birdAudio7.pause();
+          this.birdAudio7.currentTime = 0;
+          this.birdAudio8.pause();
+          this.birdAudio8.currentTime = 0;
+          this.birdAudio9.pause();
+          this.birdAudio9.currentTime = 0;
+          this.birdAudio10.pause();
+          this.birdAudio10.currentTime = 0;
+          
+//           this.birdSong1.pause();
+//           this.birdSong1.currentTime = 0;
+//           this.birdSong2.pause();
+//           this.birdSong2.currentTime = 0;
+//           this.birdSong3.pause();
+//           this.birdSong3.currentTime = 0;
+//           this.birdSong4.pause();
+//           this.birdSong4.currentTime = 0;
+//           this.birdSong5.pause();
+//           this.birdSong5.currentTime = 0;
+          this.birdSong6.pause();
+          this.birdSong6.currentTime = 0;
+          this.birdSong7.pause();
+          this.birdSong7.currentTime = 0;
+          this.birdSong8.pause();
+          this.birdSong8.currentTime = 0;
+          this.birdSong9.pause();
+          this.birdSong9.currentTime = 0;
+          this.birdSong10.pause();
+          this.birdSong10.currentTime = 0;
+          
+        
      },   
      visualizeNineteenSeventy: function (){
-       var audioContext = Pizzicato.context;
-       this.group.play()
-       this.twentyStop = true
-       this.sixtyFiveStop = true
-
-       
-       var canvas = document.getElementsByTagName("canvas")[0]
-       canvas.width = window.innerWidth
-       canvas.height = window.innerHeight
-       
-       var analyser = Pizzicato.context.createAnalyser();
-       this.group.connect(analyser);
-       
-       var scope = new Oscilloscope(analyser)
-
-       analyser.connect(audioContext.destination)
-
-       var ctx = canvas.getContext('2d')
-       ctx.lineWidth = 3
-       ctx.shadowBlur = 4
-       ctx.shadowColor = 'white'
-
-       function drawLoop () {
-          ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-          var centerY = canvas.height / 3
-          ctx.strokeStyle = 'limegreen'
-          scope.draw(ctx, 0, centerY, undefined, centerY)
-
-          window.requestAnimationFrame(drawLoop)
-       }
-      drawLoop()
+		this.seventyStop = true
+		
+			this.birdSound1.play();
+          this.birdSound2.play();
+          this.birdSound3.play();
+          this.birdSound4.play();
+          this.birdSound5.play();
+          this.birdSound6.play();
+          this.birdSound7.play();
+          this.birdSound8.play();
+          this.birdSound9.play();
+          this.birdSound10.play();
+// var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// 		var analyser = audioContext.createAnalyser();
+// 		var source = audioContext.createMediaStreamSource();
+// 		source.connect(analyser);
+// 
+//        
+//        var canvas = document.getElementsByTagName("canvas")[0]
+//        canvas.width = window.innerWidth
+//        canvas.height = window.innerHeight
+//        
+// 
+//        
+//        var scope = new Oscilloscope(analyser)
+// 
+//        analyser.connect(audioContext.destination)
+// 
+//        var ctx = canvas.getContext('2d')
+//        ctx.lineWidth = 3
+//        ctx.shadowBlur = 4
+//        ctx.shadowColor = 'white'
+// 
+//        function drawLoop () {
+//           ctx.clearRect(0, 0, canvas.width, canvas.height)
+// 
+//           var centerY = canvas.height / 3
+//           ctx.strokeStyle = 'limegreen'
+//           scope.draw(ctx, 0, centerY, undefined, centerY)
+// 
+//           window.requestAnimationFrame(drawLoop)
+//        }
+//       drawLoop()
     },
     visualizeTwentyTwenty: function () {
-       var audioContext = Pizzicato.context;
-       this.group.play()
-       this.seventyStop = true
-       this.sixtyFiveStop = true
-       
-       var canvas = document.getElementsByTagName("canvas")[0]
-       canvas.width = window.innerWidth
-       canvas.height = window.innerHeight
-       
-       var analyser = Pizzicato.context.createAnalyser();
-       this.group.connect(analyser);
-       
-       var scope = new Oscilloscope(analyser)
-
-       analyser.connect(audioContext.destination)
-
-       var ctx = canvas.getContext('2d')
-       ctx.lineWidth = 3
-       ctx.shadowBlur = 4
-       ctx.shadowColor = 'white'
-
-       function drawLoop () {
-          ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-          var centerY = canvas.height / 3
-          ctx.strokeStyle = 'salmon'
-          scope.draw(ctx, 0, centerY, undefined, centerY)
-
-          window.requestAnimationFrame(drawLoop)
-       }
-      drawLoop()
+		this.twentyStop = true
+		
+		//           this.birdAudio1.play();
+//           this.birdAudio2.play();
+//           this.birdAudio3.play();
+          this.birdAudio4.play();
+          this.birdAudio5.play();
+          this.birdAudio6.play();
+          this.birdAudio7.play();
+          this.birdAudio8.play();
+          this.birdAudio9.play();
+          this.birdAudio10.play();
+// var audioContext = Pizzicato.context;
+//        this.group.play()
+// 
+//        
+//        var canvas = document.getElementsByTagName("canvas")[0]
+//        canvas.width = window.innerWidth
+//        canvas.height = window.innerHeight
+//        
+//        var analyser = Pizzicato.context.createAnalyser();
+//        this.group.connect(analyser);
+//        
+//        var scope = new Oscilloscope(analyser)
+// 
+//        analyser.connect(audioContext.destination)
+// 
+//        var ctx = canvas.getContext('2d')
+//        ctx.lineWidth = 3
+//        ctx.shadowBlur = 4
+//        ctx.shadowColor = 'white'
+// 
+//        function drawLoop () {
+//           ctx.clearRect(0, 0, canvas.width, canvas.height)
+// 
+//           var centerY = canvas.height / 3
+//           ctx.strokeStyle = 'salmon'
+//           scope.draw(ctx, 0, centerY, undefined, centerY)
+// 
+//           window.requestAnimationFrame(drawLoop)
+//        }
+//       drawLoop()
     }, 
       visualizeTwentySixtyFive: function () {
-       var audioContext = Pizzicato.context;
-       this.group.play()
-       this.seventyStop = true
-       this.twentyStop = true
-       
-       var canvas = document.getElementsByTagName("canvas")[0]
-       canvas.width = window.innerWidth
-       canvas.height = window.innerHeight
-       
-       var analyser = Pizzicato.context.createAnalyser();
-       this.group.connect(analyser);
-       
-       var scope = new Oscilloscope(analyser)
-
-       analyser.connect(audioContext.destination)
-
-       var ctx = canvas.getContext('2d')
-       ctx.lineWidth = 3
-       ctx.shadowBlur = 4
-       ctx.shadowColor = 'white'
-
-       function drawLoop () {
-          ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-          var centerY = canvas.height / 3
-          ctx.strokeStyle = 'orange'
-          scope.draw(ctx, 0, centerY, undefined, centerY)
-
-          window.requestAnimationFrame(drawLoop)
-       }
-      drawLoop()
-    }
+		this.sixtyFiveStop = true
+		
+		//           this.birdSong1.play();
+//           this.birdSong2.play();
+//           this.birdSong3.play();
+//           this.birdSong4.play();
+//           this.birdSong5.play();
+          this.birdSong6.play();
+          this.birdSong7.play();
+          this.birdSong8.play();
+          this.birdSong9.play();
+          this.birdSong10.play();
+// var audioContext = Pizzicato.context;
+//        this.group.play()
+// 
+//        
+//        var canvas = document.getElementsByTagName("canvas")[0]
+//        canvas.width = window.innerWidth
+//        canvas.height = window.innerHeight
+//        
+//        var analyser = Pizzicato.context.createAnalyser();
+//        this.group.connect(analyser);
+//        
+//        var scope = new Oscilloscope(analyser)
+// 
+//        analyser.connect(audioContext.destination)
+// 
+//        var ctx = canvas.getContext('2d')
+//        ctx.lineWidth = 3
+//        ctx.shadowBlur = 4
+//        ctx.shadowColor = 'white'
+// 
+//        function drawLoop () {
+//           ctx.clearRect(0, 0, canvas.width, canvas.height)
+// 
+//           var centerY = canvas.height / 3
+//           ctx.strokeStyle = 'orange'
+//           scope.draw(ctx, 0, centerY, undefined, centerY)
+// 
+//           window.requestAnimationFrame(drawLoop)
+//        }
+//       drawLoop()
+//     }
   },
   closeModal: function () {
      this.isModalVisible = false; 
   }, 
-}
+  }
+  }
 </script>
 
 
