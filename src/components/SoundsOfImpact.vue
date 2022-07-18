@@ -8,14 +8,18 @@
     <button id="generateButton" v-if="!isHidden" v-on:click="aboutHidden=true; voiceHidden=true; isHidden=true; isHidden3=true; isWoodLand(); generateSoundscape();">Generate Soundscape</button>
       <!--<p><button class="landscape" id="woodlands" v-if="isHidden3" v-on:click="isWoodLand(); generateSoundscape(); isHidden3=false; isHidden4=false; isHidden2=true; other()">Listen to Soundscape</button><p>-->
     <span>
-    <p>
-     <!--<p id="surveyQuestion" v-if="!isHidden"><br><br><br><br>Are you interested to help us learn more about environmental communication by filling out a brief survey before and after interacting with Byrd Bot?
-     <button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About</button>-->
+ 
+     <p v-if="!isHidden" id="surveyQuestion"><br><br><br><br>Are you interested to help us learn more about environmental communication by filling out a brief survey before and after interacting with Byrd Bot? 
+         <br><a href="https://rowan.co1.qualtrics.com/jfe/form/SV_eR5SdXa3GylTHBI"><button id="aboutButton" >Yes</button></a></p>
+
+     <!--<button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About</button>-->
      <!-- <button id="voiceButton" v-if="!voiceHidden" v-on:click="initiateVoiceControl()">Enable Voice Control</button>
      <br><button id="aboutButton" v-on:click="aboutHidden=true; voiceHidden=true; isHidden=true; isHidden2=true; isHidden3=true; isHidden4=true; biome(); isWoodLand(); generateSoundscape()">Yes</button>-->
-    </p>
+    <!-- 
+</p>
     <iframe id="survey" v-if="isHidden4" src="https://rowan.co1.qualtrics.com/jfe/form/SV_5ulN08dAFJakrwW" width="640" height="2336" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-    </span> 
+   -->  </span> 
+
    <!-- <button class="landscape" id="coast" v-if="isHidden3" v-on:click="isCoast(); generateSoundscape(); isHidden3=false; isHidden2=true">Coast</button>  
     <button class="landscape" id="backyard" v-if="isHidden3" v-on:click="isBackYard(); generateSoundscape(); isHidden3=false; isHidden2=true">Backyard</button>-->  
     <!--code for tracking frequency with box size fontSize: birdSoundVolume10/2 +'px' -->
@@ -48,7 +52,6 @@
       <li class="card" v-bind:style="{color: birdColor2, fontSize: 50 +'px'}" v-show="card2"><!-- <img class="card" :alt="birdName2" :src="birdImage2"> -->{{birdName2}}</li>
 	</ul> <h4> {{ meters1 }} </h4>
     <Modal v-show="isModalVisible" @voice="this.reInitiateVoiceControl" @close="isModalVisible = false"/> 
-    <iframe id="survey" v-if="surveyShow" src="https://rowan.co1.qualtrics.com/jfe/form/SV_0P7c1zqwJGzN3q6" width="640" height="2511" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     <div id="footer">
 		<p>Byrd Bot was developed by researchers at <a href="https://www.rowan.edu">Rowan University</a>. Bird songs generously provided by the <a href="https://www.macaulaylibrary.org">Cornell Lab of Ornithology/Macaulay Library</a>.  Individual credits for bird song recordings can be found <a href="https://soundsofhumanimpact.github.io/data">here</a>.</p>
 	</div>
