@@ -52,9 +52,10 @@
       <li class="card" v-bind:style="{color: birdColor2, fontSize: 50 +'px'}" v-show="card2"><!-- <img class="card" :alt="birdName2" :src="birdImage2"> -->{{birdName2}}</li>
 	</ul> <h4> {{ meters1 }} </h4>
     <Modal v-show="isModalVisible" @voice="this.reInitiateVoiceControl" @close="isModalVisible = false"/> 
-    <div id="footer">
-		<p>Byrd Bot was developed by researchers at <a href="https://www.rowan.edu">Rowan University</a>. Bird songs generously provided by the <a href="https://www.macaulaylibrary.org">Cornell Lab of Ornithology/Macaulay Library</a>.  Individual credits for bird song recordings can be found <a href="https://soundsofhumanimpact.github.io/data">here</a>.</p>
-	</div>
+		<br>
+		<br>
+		<br>
+		<footer id= "footer">Byrd Bot was developed by researchers at <a href="https://www.rowan.edu">Rowan University</a>. Bird songs generously provided by the <a href="https://www.macaulaylibrary.org">Cornell Lab of Ornithology/Macaulay Library</a>.  Individual credits for bird song recordings can be found <a href="https://soundsofhumanimpact.github.io/data">here</a>.</footer>
   </div>
 </template>
 
@@ -1769,8 +1770,13 @@ a {
   color: #42b983;
 }
 canvas {
-height: 150px; 
+height: 20px; 
 width: 100%; 
 }
+#footer {
+    position: relative;
+    margin-top: 10px;
+}
+
 
 </style>
