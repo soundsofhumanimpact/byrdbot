@@ -387,6 +387,48 @@ export default {
     }
   },
 mounted: function () {
+// Get the input field
+
+// Execute a function when the user presses a key on the keyboard
+window.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "b") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("generateButton").click();
+  }
+  
+  if (event.key === "y") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("resetButton").click();
+  }
+  
+    if (event.key === "r") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("nineteenSeventyButton").click();
+  }
+	if (event.key === "d") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("twentyTwentyButton").click();
+  }
+  
+	if (event.key === "o") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("twentyTwentyFiftyFive").click();
+  }
+});
+
+
+
       this.msg = "BYRD BOT"
       this.msg2 = ""
       if ('webkitSpeechRecognition' in window) {
@@ -401,11 +443,9 @@ mounted: function () {
   window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
   let finalTranscript = '';
   let recognition = new window.SpeechRecognition();
-
   recognition.interimResults = true;
   recognition.maxAlternatives = 10;
   recognition.continuous = true;
-
   recognition.onresult = (event) => {
   let interimTranscript = '';
     for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
@@ -509,7 +549,6 @@ recognition.start()
       //this.resultsType = "Back Yard"
       //for use later when more options are available
       this.woodLand = true //remove after updating data set
-
   },
      generateSoundscape: function () {
      var self = this; 
@@ -537,15 +576,12 @@ recognition.start()
 		function getRandomEntry() {
 		return self.filteredResults[Math.round(Math.random() * (self.filteredResults.length))];
 		}
-
 		for (var i=0; i<16; i++) {
 		var soundScapeVariables
 		
 		soundScapeVariables = getRandomEntry();
-
 		
 		randomEntries.push(soundScapeVariables);
-
 		}
 		
 		self.msg4 = randomEntries
@@ -560,7 +596,6 @@ recognition.start()
           
           
           var soundConstructor = "sound" + Math.floor(Math.random()*4+1) 
-
 //BIRD 1 - 10-40 Meters - 100% Volume          
           self.birdName1 = randomEntries[0].species
           self.birdNumber1 = randomEntries[0][soundConstructor]
@@ -694,7 +729,6 @@ recognition.start()
             if (probability >= birdProbabilityFour) {
               self.flipCardFour = false
             }
-
 //BIRD 5 - 50 Meters - 50% Volume 
           self.birdName5 = randomEntries[4].species
           self.birdNumber5 = randomEntries[4][soundConstructor]
@@ -760,7 +794,6 @@ recognition.start()
             if (probability >= birdProbabilitySix) {
               self.flipCardSix = false
             }
-
 //BIRD 7 - 60 Meters - 20% Volume 
           self.birdName7 = randomEntries[6].species
           self.birdNumber7 = randomEntries[6][soundConstructor]
@@ -972,7 +1005,6 @@ recognition.start()
         
         this.birdSound10 = new Audio(this.birdNumber10)
         this.birdSound10.volume = .03
-
 //2020       
 //         this.birdAudio1 = new Audio(this.birdNumber1)
 //         this.birdAudio1.volume = 1
@@ -1003,9 +1035,7 @@ recognition.start()
         
         this.birdAudio10 = new Audio(this.birdNumber10)
         this.birdAudio10.volume = .03
-
 //2065
-
 // 		this.birdSong1 = new Audio(this.birdNumber1)
 //         this.birdSong1.volume = 1
 //         
@@ -1212,7 +1242,6 @@ recognition.start()
             this.loopTwo()
           })
         }
-
         else {
         this.msg4 = ""
         //this.meters1 = '--------------------------------------------------------------------------------   10-40 Meters   --------------------------------------------------------------------------------', 
@@ -1236,7 +1265,6 @@ recognition.start()
         this.card9 = false;
         this.card10 = false;
         this.stop = false; 
-
         
         if (this.flipCardA == true) {
           //this.card1 = true; 
@@ -1425,7 +1453,6 @@ recognition.start()
         var canvas = document.getElementsByTagName("canvas")[0]
         canvas.width = 0
         canvas.height = 0
-
         
           this.birdSound1.pause();
           this.birdSound1.currentTime = 0;
@@ -1639,7 +1666,6 @@ recognition.start()
 .blink_me {
   animation: blinker 1s linear infinite;
 }
-
 @keyframes blinker {
   50% {
     opacity: 0;
@@ -1679,7 +1705,6 @@ color: red;
 padding-bottom: 0; 
 z-index: 2
 }
-
 .card {
 border-style: solid; 
 border-width: 1px;
@@ -1777,6 +1802,4 @@ width: 100%;
     position: relative;
     margin-top: 10px;
 }
-
-
 </style>
